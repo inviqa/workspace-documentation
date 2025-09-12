@@ -291,6 +291,27 @@ Installer::applyConfiguration($this->harness->getRequiredConfdPaths())
 
 Each path passed to `ConfdFactory::create($path)` corresponds to a directory prefix (e.g. `harness:/`). The factory builds a Twig environment rooted at that directory and the associated `Definition` (from parsing `confd()` declarations) supplies the mapping list.
 
+> **Important – Current Design Constraint**
+>
+> The set of confd roots that are processed is **only** what the harness
+> definition exposes via `Harness::getRequiredConfdPaths()` (see
+> `workspace/src/Types/Harness/Definition.php`). There is **no automatic file
+> system scanning** for arbitrary `confd.yml` files elsewhere in a project, and
+> there is currently **no workspace-level (non-harness) directive** that adds
+> extra confd roots. If you place a `confd.yml` outside of the harness (or have
+> no harness at all) it will be ignored unless you:
+>
+> 1. Introduce a minimal local harness that declares the desired confd path(s).
+> 2. Or implement a custom command that manually instantiates and runs the
+>    Confd pipeline (advanced / internal API usage).
+>
+> This deliberate limitation preserves determinism (only declared harness
+> layers participate), avoids performance and security issues from unintended
+> template discovery, and keeps layering semantics explicit. A future
+> enhancement could add a `standaloneConfd:` style configuration to
+> `workspace.yml`, but that does **not** exist at present.
+
+
 ### 3. Rendering Order & Last-Write Wins
 
 Inside a single `confd()` block, mappings are processed top-to-bottom. If multiple mappings target the same destination (explicit `dst` or implicit from `src`), the later one overwrites earlier rendered output. Across harness layers, the *file presence* is already decided before rendering; only the merged final tree participates. Thus, layering first, then mapping order.
