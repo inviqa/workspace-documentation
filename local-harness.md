@@ -458,3 +458,4 @@ confd paths. Until then, this pattern is the simplest supported approach.
 
 - [Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)
 - [Workspace Commands & Functions Index](workspace-commands-functions-index.md)
+- [Building a Reusable Harness](building-a-harness.md)

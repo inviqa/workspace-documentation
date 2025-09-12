@@ -215,6 +215,7 @@ The following focused documents provide additional technical depth:
 - Mutagen integration: [mutagen-integration.md](mutagen-integration.md)
 - Visual harness tree: [harness-tree.md](harness-tree.md)
 - Local harness pattern: [local-harness.md](local-harness.md)
+- Building a reusable harness: [building-a-harness.md](building-a-harness.md)
 
 ---
 

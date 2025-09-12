@@ -313,6 +313,9 @@ Each path passed to `ConfdFactory::create($path)` corresponds to a directory pre
 >
 > For an officially documented workaround describing the "minimal local harness"
 > approach, see: [Local Harness Pattern](local-harness.md).
+>
+> For guidance on evolving a path-based harness into a published reusable
+> package, see: [Building a Reusable Harness](building-a-harness.md).
 
 
 ### 3. Rendering Order & Last-Write Wins
