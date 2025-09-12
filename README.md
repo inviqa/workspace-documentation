@@ -1,5 +1,12 @@
 # Workspace Harness Documentation
 
+> ⚠️ **WORK IN PROGRESS**: This documentation set is being actively
+> refactored toward a canonical-source model. Sections, filenames, and
+> anchors may change. Please report broken links instead of copying or
+> recreating content.
+
+> ⚠️ **WORK IN PROGRESS**: This documentation set is being actively refactored toward a canonical-source model. Sections, filenames, and anchors may change. Please report broken links instead of copying or recreating content.
+
 ## Overview
 
 This documentation explains the Workspace harness structure, how harnesses are
@@ -10,6 +17,7 @@ projects.
 
 ## Table of Contents
 
+- [Overview](#overview)
 - [What is a Workspace Harness?](#what-is-a-workspace-harness)
 - [Harness Structure](#harness-structure)
 - [Parent and Child Harnesses](#parent-and-child-harnesses)
@@ -22,6 +30,9 @@ projects.
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [References](#references)
+- [Documentation Canonical Sources](#documentation-canonical-sources)
+  - [Duplicate Command Listing Detection](#duplicate-command-listing-detection)
+- [Related Deep Dives](#related-deep-dives)
 
 ---
 
@@ -99,6 +110,8 @@ base-harness/
 - Add or override commands via `harness/config/commands.yml`.
 - Introduce or override files (they’ll be layered by directory precedence).
 
+---
+
 ## File Materialisation (confd.yml)
 
 File mapping from template sources into the realized development harness is
@@ -154,30 +167,28 @@ canonical file. Other documents should only summarize and link back.
 
 Canonical sources:
 
-- Core workspace commands & functions: `workspace-commands-functions-index.md`
-  (authoritative list). Summaries: harness summaries, deep dives.
-- Template & file materialisation pipeline: `harness-confd-file-mappings.md`
-  (deep dive: `confd.yml`, layering, overlay, diagnostics). Linked from index,
-  implementation references.
-- Implementation source mapping: `implementation-references.md` (maps
-  features to PHP classes & scripts). Linked from index and deep dives.
-- Aggregated harness overview: `all-harnesses-summary.md` (high-level feature
-  highlights). Linked from README and marketing docs.
-- Harness architecture & authoring concepts: this `README.md` (conceptual
-  orientation). Linked from all other docs.
-- Planned improvements / roadmap: `TODO.md` (tasks & roadmap). Linked from
-  README and contributor docs.
+- Core workspace commands & functions:
+  `workspace-commands-functions-index.md` (authoritative list).
+  Summaries: harness summaries, deep dives.
+- Template & file materialisation pipeline:
+  `harness-confd-file-mappings.md` (deep dive: `confd.yml`, layering,
+  overlay, diagnostics).
+- Implementation source mapping:
+  `implementation-references.md` (maps features to PHP classes & scripts).
+- Aggregated harness overview: `all-harnesses-summary.md` (high-level feature highlights).
+- Harness architecture & authoring concepts: this `README.md` (conceptual orientation).
+- Planned improvements / roadmap: `TODO.md` (tasks & roadmap).
 
 Guidelines:
 
-1. Add new conceptual deep dives as separate files; link them in the table.
+1. Add new conceptual deep dives as separate files; link them in the list below.
 2. Avoid copying command lists—prefer a single bullet with a link.
 3. Move detailed operational sequences (step-by-step) out of summary indexes.
-4. Update this table if a new documentation domain is introduced.
+4. Update this section if a new documentation domain is introduced.
 
 ### Duplicate Command Listing Detection
 
-A CI check validates that identical command lines do not appear redundantly
+A CI (or manual) check validates that identical command lines do not appear redundantly
 across multiple canonical docs (excluding intentional highlights). It scans
 for repeated backtick-wrapped command tokens and fails the build on duplicates
 outside approved files.
@@ -188,6 +199,21 @@ If the check fails:
 2. Replace it with a short pointer to the canonical source.
 3. Re-run CI to confirm resolution.
 
-See `.github/workflows/docs-duplicate-commands.yml` and
+See `.github/workflows/docs-duplicate-commands.yml` (when enabled) and
 `tools/check-duplicate-commands.sh` for implementation details.
+
+---
+
+## Related Deep Dives
+
+The following focused documents provide additional technical depth:
+
+- Harness command & function index: [workspace-commands-functions-index.md](workspace-commands-functions-index.md)
+- Harness summary highlights: [all-harnesses-summary.md](all-harnesses-summary.md)
+- Implementation references: [implementation-references.md](implementation-references.md)
+- Harness file materialisation: [harness-confd-file-mappings.md](harness-confd-file-mappings.md)
+- Mutagen integration: [mutagen-integration.md](mutagen-integration.md)
+- Visual harness tree: [harness-tree.md](harness-tree.md)
+
+---
 
