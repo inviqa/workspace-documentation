@@ -1,6 +1,38 @@
 # Harness Docker Commands and Functions
 
-This document lists all commands and functions provided by the `harness-docker` harness.
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Commands](#commands)
+  - [Workspace Management](#workspace-management)
+  - [Network Management](#network-management)
+  - [Container Management](#container-management)
+  - [Development Tools](#development-tools)
+  - [Asset Management](#asset-management)
+  - [Database Management](#database-management)
+  - [Configuration Management](#configuration-management)
+  - [Harness Management](#harness-management)
+  - [Utilities](#utilities)
+- [Functions](#functions)
+  - [File: harness-docker/harness/config/functions.yml](#file-harness-dockerharnessconfigfunctionsyml)
+  - [Architecture Detection](#architecture-detection)
+  - [YAML Processing Functions](#yaml-processing-functions)
+  - [Array Processing Functions](#array-processing-functions)
+  - [Service Management Functions](#service-management-functions)
+  - [Docker Functions](#docker-functions)
+  - [Utility Functions](#utility-functions)
+- [Usage Examples](#usage-examples)
+  - [Using Commands](#using-commands)
+  - [Using Functions in Configuration](#using-functions-in-configuration)
+  - [Environment Variables](#environment-variables)
+
+<!-- /TOC -->
+
+## Introduction
+
+This document lists all commands and functions provided by the
+`harness-docker` harness.
 
 ## Commands
 

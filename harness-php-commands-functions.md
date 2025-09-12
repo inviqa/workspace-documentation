@@ -1,6 +1,54 @@
 # Harness PHP Commands and Functions
 
-This document lists all commands and functions provided by the `harness-php` harness.
+<!-- QUICK-INDEX -->
+## Quick Index
+
+- [Workspace Management](#workspace-management)
+- [Network Management](#network-management)
+- [Container Management](#container-management)
+- [PHP Development](#php-development)
+- [Asset Management](#asset-management)
+- [Database Management](#database-management)
+- [Configuration Management](#configuration-management)
+- [Harness Management](#harness-management)
+- [PHP Extensions Management](#php-extensions-management)
+- [Utilities](#utilities)
+- [Functions](#functions)
+  - [PHP-FPM Monitoring Functions](#php-fpm-monitoring-functions)
+  - [Standard Docker Functions](#standard-docker-functions)
+- [Usage Examples](#usage-examples)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Commands](#commands)
+  - [Workspace Management](#workspace-management)
+  - [Network Management](#network-management)
+  - [Container Management](#container-management)
+  - [PHP Development](#php-development)
+  - [Asset Management](#asset-management)
+  - [Database Management](#database-management)
+  - [Configuration Management](#configuration-management)
+  - [Harness Management](#harness-management)
+  - [PHP Extensions Management](#php-extensions-management)
+  - [Utilities](#utilities)
+- [Functions](#functions)
+  - [File: harness-php/harness/config/functions.yml](#file-harness-phpharnessconfigfunctionsyml)
+  - [PHP-FPM Monitoring Functions](#php-fpm-monitoring-functions)
+  - [Standard Docker Functions](#standard-docker-functions)
+- [Usage Examples](#usage-examples)
+  - [Using Commands](#using-commands)
+  - [Using Functions](#using-functions)
+  - [Environment Variables](#environment-variables)
+
+<!-- /TOC -->
+
+## Introduction
+
+This document lists all commands and functions provided by the `harness-php`
+harness.
 
 ## Commands
 

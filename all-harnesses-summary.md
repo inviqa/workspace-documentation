@@ -1,5 +1,41 @@
 # All Harnesses Commands and Functions Summary
 
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Harness Documentation Files](#harness-documentation-files)
+- [Quick Reference: Common Commands Across Harnesses](#quick-reference-common-commands-across-harnesses)
+  - [Core Workspace Management (Highlights)](#core-workspace-management-highlights)
+  - [Development & Tooling](#development--tooling)
+  - [Data & Assets](#data--assets)
+  - [Features / Extensions](#features--extensions)
+  - [Utilities](#utilities)
+- [Common Functions Across Harnesses](#common-functions-across-harnesses)
+  - [YAML Processing](#yaml-processing)
+  - [Array/Data Processing](#arraydata-processing)
+  - [Docker Functions](#docker-functions)
+  - [Service Management](#service-management)
+  - [Utility Functions](#utility-functions)
+  - [PHP-Specific Functions](#php-specific-functions)
+  - [Architecture Functions](#architecture-functions)
+- [Harness-Specific Features](#harness-specific-features)
+  - [harness-base-node](#harness-base-node)
+  - [harness-base-php](#harness-base-php)
+  - [harness-docker](#harness-docker)
+  - [harness-drupal8](#harness-drupal8)
+  - [harness-go](#harness-go)
+  - [harness-magento1](#harness-magento1)
+  - [harness-node](#harness-node)
+  - [harness-php](#harness-php)
+  - [harness-symfony](#harness-symfony)
+  - [harness-viper](#harness-viper)
+  - [harness-wordpress](#harness-wordpress)
+
+<!-- /TOC -->
+
+## Introduction
+
 This document provides a comprehensive overview of all commands and
 functions available across all harnesses in the workspace.
 

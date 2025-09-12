@@ -3,7 +3,24 @@
 > Canonical reference for the `application/overlay/` directory pattern in a
 > Workspace harness (distinct from `application/skeleton/`).
 
-## 1. Purpose
+<!-- TOC -->
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Typical Contents](#typical-contents)
+- [Render + Apply Lifecycle](#render--apply-lifecycle)
+- [Attribute Injection](#attribute-injection)
+- [Commands & Tasks](#commands--tasks)
+- [Upgrade & Refresh Practices](#upgrade--refresh-practices)
+- [Extension Guidelines](#extension-guidelines)
+- [Anti-Patterns](#anti-patterns)
+- [Provenance / Drift Detection (Optional Enhancements)](#provenance--drift-detection-optional-enhancements)
+- [Quick Reference](#quick-reference)
+- [Author Checklist](#checklist-author-perspective)
+
+<!-- /TOC -->
+
+## Purpose
 
 The overlay provides **managed bootstrap artefacts** (CI pipeline, dependency
 auth, ignore policy, etc.) that are *authored in the harness*, rendered via
@@ -22,7 +39,7 @@ artefact set that may be refreshed after upgrades.
 | Typical Files | `Jenkinsfile`, `auth.json`, `.dockerignore` | README fragment |
 | Re-apply Needed? | Yes (when harness updates) | Rarely (manual edits after) |
 
-## 2. Typical Contents
+## Typical Contents
 
 | File | Role | Notes |
 |------|------|-------|
@@ -34,7 +51,7 @@ artefact set that may be refreshed after upgrades.
 A supporting `_twig/` subtree can hold fragment pieces (e.g.
 `.dockerignore/static.twig`, `.dockerignore/dynamic.twig`).
 
-## 3. Render + Apply Lifecycle
+## Render + Apply Lifecycle
 
 1. `ws harness prepare` renders harness templates into `.my127ws/...` according
    to `harness/config/confd.yml` mapping entries.
@@ -54,7 +71,7 @@ A supporting `_twig/` subtree can hold fragment pieces (e.g.
        \ (rsync task overlay:apply) --------------------------+--> [project root]
 ```
 
-## 4. Attribute Injection
+## Attribute Injection
 
 Examples of attribute groups often referenced:
 
@@ -71,7 +88,7 @@ Examples of attribute groups often referenced:
 Keep attribute usage **declarative**: avoid embedding sensitive secrets; prefer
 credential indirection via CI secret stores or environment injection.
 
-## 5. Commands & Tasks
+## Commands & Tasks
 
 Provide an explicit command to re-apply overlays:
 
@@ -91,7 +108,7 @@ run rsync --exclude='*.twig' --exclude='_twig' \
 
 Optionally add a `--dry-run` mode (e.g. `rsync -an`) to preview changes.
 
-## 6. Upgrade & Refresh Practices
+## Upgrade & Refresh Practices
 
 | Scenario | Action |
 |----------|--------|
@@ -100,7 +117,7 @@ Optionally add a `--dry-run` mode (e.g. `rsync -an`) to preview changes.
 | Removing an overlay file | Note in release notes (may be breaking) |
 | Local modifications diverged | Diff before overwriting; maybe provenance |
 
-## 7. Extension Guidelines
+## Extension Guidelines
 
 Add new overlay files when they:
 
@@ -114,7 +131,7 @@ Avoid overlaying:
 - Large binaries (fetch dynamically instead).
 - Highly experimental configs (stage locally first).
 
-## 8. Anti-Patterns
+## Anti-Patterns
 
 | Anti-Pattern | Why Problematic | Alternative |
 |--------------|-----------------|------------|
@@ -123,7 +140,7 @@ Avoid overlaying:
 | Huge monolithic Jenkinsfile logic | Hard to reason | Extract tasks into cmds |
 | Direct write to root w/out filtering | Copies `.twig` sources | Use excludes |
 
-## 9. Provenance / Drift Detection (Optional Enhancements)
+## Provenance / Drift Detection (Optional Enhancements)
 
 You can add a header line to managed overlay files:
 
@@ -140,7 +157,7 @@ Potential future improvements:
 - `ws overlay status` command listing drifted files.
 - Automatic PR generator for overlay updates.
 
-## 10. Quick Reference
+## Quick Reference
 
 | Need | Command / File |
 |------|----------------|
@@ -149,7 +166,7 @@ Potential future improvements:
 | Update harness + refresh overlay | `ws harness prepare && ws overlay apply` |
 | Inspect mapped files | `harness/config/confd.yml` |
 
-## 11. Checklist (Author Perspective)
+## Checklist (Author Perspective)
 
 - [ ] Overlay documented & linked from authoring guide
 - [ ] Explicit re-apply command provided

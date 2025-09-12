@@ -1,11 +1,37 @@
 # TODO - Workspace Documentation Project
 
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [High Priority Tasks](#high-priority-tasks)
+  - [Documentation Restructuring](#documentation-restructuring)
+  - [Core Workspace Tool Documentation](#core-workspace-tool-documentation)
+- [Content Enhancement](#content-enhancement)
+  - [User Experience Improvements](#user-experience-improvements)
+  - [Advanced Topics](#advanced-topics)
+- [Technical Improvements](#technical-improvements)
+  - [Documentation Infrastructure](#documentation-infrastructure)
+  - [Community and Maintenance](#community-and-maintenance)
+- [Additional Suggestions](#additional-suggestions)
+  - [Educational Content](#educational-content)
+  - [Integration Documentation](#integration-documentation)
+  - [Reference Materials](#reference-materials)
+- [Implementation Notes](#implementation-notes)
+  - [Priority Levels](#priority-levels)
+  - [Success Metrics](#success-metrics)
+  - [Timeline Considerations](#timeline-considerations)
+
+<!-- /TOC -->
+
+## Introduction
+
 This document outlines planned improvements and additions to the Workspace
 Documentation project.
 
 ## High Priority Tasks
 
-### 1. Documentation Restructuring
+### Documentation Restructuring
 
 - [ ] **Isolate harness-specific documentation**
   - Move harness-specific content to a separate harness documentation project
@@ -29,7 +55,7 @@ Documentation project.
   - Override patterns and best practices
   - Contribution guidelines for harness repositories
 
-### 2. Core Workspace Tool Documentation
+### Core Workspace Tool Documentation
 
 - [ ] **Migrate and enhance developer documentation**
   - Import incomplete documentation from `workspace/docs/`
@@ -46,7 +72,7 @@ Documentation project.
 
 ## Content Enhancement
 
-### 3. User Experience Improvements
+### User Experience Improvements
 
 - [ ] **Create getting started guide**
   - Quick start tutorial for new users
@@ -63,7 +89,7 @@ Documentation project.
   - Environment variable documentation
   - Attribute system explanation and examples
 
-### 4. Advanced Topics
+### Advanced Topics
 
 - [ ] **Add deployment and CI/CD documentation**
   - Integration with popular CI/CD platforms
@@ -77,7 +103,7 @@ Documentation project.
 
 ## Technical Improvements
 
-### 5. Documentation Infrastructure
+### Documentation Infrastructure
 
 - [ ] **Implement documentation versioning**
   - Version-specific documentation for different Workspace releases
@@ -105,17 +131,21 @@ Documentation project.
   - Apply to deep dives (confd, implementation references, command index)
   - Ensure no conflicts with lint rules (MD041, MD001, MD031)
 
-- [ ] **Automate implementation reference regeneration**
+- [ ] **Automate implementation reference + navigation regeneration**
   - Script parses `Builder.php`, `Installer.php`, service scripts
   - Rebuild tables in `implementation-references.md`
   - Provide `--check` mode for CI drift detection
   - Hook into documentation build pipeline
+  - Generate / refresh TOC blocks where missing or stale
+  - Optional Quick Index curation support (allowlist-driven)
 
-- [ ] **Automate implementation of harness commands and functions documentation regeneration**
+- [ ] **Automate harness commands/functions docs & navigation regeneration**
   - Script parses the harness command and functions and scripts files
   - Rebuild tables in `harness-<harness>-commands-functions.md`
   - Provide `--check` mode for CI drift detection
   - Hook into documentation build pipeline
+  - Insert/refresh TOC after H1 (skip short docs)
+  - Maintain optional Quick Index for high-traffic sections
 
 - [ ] **Create dedicated harness-template repository**
   - Scaffold repo mirroring the "Full Featured Reference Layout" (sanitised)
@@ -173,7 +203,7 @@ Documentation project.
   - Integrate optional CI job to prevent stale overlay artefacts
   - Document remediation workflow (reapply or accept & update template)
 
-### 6. Community and Maintenance
+### Community and Maintenance
 
 - [ ] **Establish contribution guidelines**
   - Documentation style guide
@@ -187,7 +217,7 @@ Documentation project.
 
 ## Additional Suggestions
 
-### 7. Educational Content
+### Educational Content
 
 - [ ] **Create video tutorials**
   - Basic Workspace usage
@@ -199,7 +229,7 @@ Documentation project.
   - Industry-specific implementation patterns
   - Performance optimization case studies
 
-### 8. Integration Documentation
+### Integration Documentation
 
 - [ ] **IDE and Editor Integration**
   - VS Code extensions and configurations
@@ -211,7 +241,7 @@ Documentation project.
   - Monitoring and logging setup
   - Testing framework integration
 
-### 9. Reference Materials
+### Reference Materials
 
 - [ ] **Create glossary of terms**
   - Workspace-specific terminology

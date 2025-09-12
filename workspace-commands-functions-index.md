@@ -1,5 +1,41 @@
 # Workspace Commands and Functions - Master Index
 
+<!-- QUICK-INDEX -->
+## Quick Index
+
+- [Core Commands](#core-workspace-commands)
+- [Global Services](#global-service-management)
+- [Harness Preparation](#harness-preparation)
+- [Utilities & Attributes](#core-workspace-utilities-and-attributes)
+- [Expression Functions](#expression-functions)
+- [Built-in Attributes](#built-in-attributes)
+- [Loading Order](#configuration-file-loading-order)
+- [Implementation References](#related-documentation)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Overview](#overview)
+- [Related Documentation](#related-documentation)
+- [Core Workspace Commands](#core-workspace-commands)
+  - [File: workspace/config/workspace/global.yml](#file-workspaceconfigworkspaceglobalyml)
+  - [Global Service Management](#global-service-management)
+  - [Configuration Management](#configuration-management)
+  - [System Management](#system-management)
+  - [Workspace Creation](#workspace-creation)
+  - [Harness Preparation](#harness-preparation)
+- [Core Workspace Utilities and Attributes](#core-workspace-utilities-and-attributes)
+  - [Utility scripts (workspace/home/bin)](#utility-scripts-workspacehomebin)
+  - [Expression functions](#expression-functions)
+  - [Built-in attributes](#built-in-attributes)
+  - [Configuration file loading order](#configuration-file-loading-order)
+
+<!-- /TOC -->
+
+## Introduction
+
 This document provides a comprehensive index of all commands and functions
 available across the Workspace system and all harnesses. Each harness extends
 the core functionality with specific tools for different application types.
