@@ -71,6 +71,20 @@ confd('workspace:/'):
   - { src: templates/notices/NOTICE.md, dst: workspace:/NOTICE.md }
 ```
 
+Note:
+
+- A separate `confd('harness:/'):` block is **not required** in the minimal
+  pattern because the goal is to place every rendered artefact directly into
+  the project root. All templates still reside under the local harness
+  directory; the prefix only controls the *destination* root.
+- If you later need some files to live inside the ephemeral harness tree (e.g.
+  helper scripts that should not clutter the repository root) you can either:
+  1. Keep a single `confd('workspace:/')` block and use explicit
+     `dst: harness:/path/to/file` overrides for those few cases, or
+  2. Introduce an additional `confd('harness:/'):` block for clearer grouping
+     when there are many harness-internal outputs.
+
+
 ### Why `workspace:/` Prefix?
 
 It directs all rendered outputs into the project root (not the ephemeral
@@ -156,6 +170,164 @@ If you later adopt an upstream harness:
 1. Move local templates into an overlay directory or new layer.
 2. Replace `harness.path` with vendor harness name (e.g. `inviqa/php`).
 3. Merge `confd.yml` entries (avoid duplicate destinations).
+
+## Upgrading to a Complete In-Repo Harness (Using `.my127ws/` Structure)
+
+Sometimes you want to go beyond a minimal template layer but still keep the
+entire harness logic inside your repository (rather than immediately depending
+on a published package). This section shows how to evolve the local harness
+into a more complete structure modelled after `harness-php` while continuing to
+use the standard `.my127ws/` realisation directory produced by Workspace.
+
+### Why Build a Complete In-Repo Harness First?
+
+| Motivation | Rationale |
+|------------|-----------|
+| Iterative hardening | Expand gradually before externalising as a package |
+| Faster feedback | Change + enable cycle stays local (no publish step) |
+| Custom stack mix | Combine patterns from multiple existing harnesses |
+| Pre-packaging audit | Validate naming, layering, generated outputs |
+| Temporary divergence | Maintain project-specific tweaks before upstreaming |
+
+### Target Layout (Authoritative Sources)
+
+You define an authoritative tree under your existing `local-harness/` (keeping
+the name consistent for clarity) mirroring the directory semantics of an
+upstream harness (compare with `harness-php/_twig/`, `docker/`, `harness/`,
+etc.). Example minimal scaffold:
+
+```text
+workspace.yml
+local-harness/
+  config/
+    confd.yml
+  templates/                 # (Optional) if you prefer this naming
+  docker/
+    image/
+      php/Dockerfile.twig
+  harness/
+    scripts/
+      bootstrap.sh.twig
+  docs/
+    README.partial.md.twig
+```
+
+You should keep using `local-harness/` while iterating. Only once you are
+ready to extract and publish a reusable package would you optionally rename it
+to a neutral `harness/` (or move it into a separate repository). Naming is not
+enforced by tooling—`harness.path` directs the lookup.
+
+### Example Expanded `confd.yml`
+
+`local-harness/config/confd.yml` (showing both destination roots):
+
+```yaml
+# Harness-internal artefacts (end up under .my127ws/ ...)
+confd('harness:/'):
+  - { src: harness/scripts/bootstrap.sh }
+
+# Project-root artefacts
+confd('workspace:/'):
+  - { src: docker/image/php/Dockerfile }
+  - { src: docs/README.partial.md, dst: workspace:/HARNESS-NOTES.md }
+```
+
+Notes:
+
+- Two blocks make destination intent obvious: first purely harness files,
+  second project-root files.
+- You could collapse these into a single `confd('workspace:/')` block and keep
+  `dst: harness:/...` for harness-internal outputs; separate blocks scale
+  better once you have several internal scripts.
+- Use clear naming for root artefacts (`HARNESS-NOTES.md`) to avoid conflicts
+  with repository user-facing docs.
+
+### Declaring the Harness
+
+In `workspace.yml` keep using a path-based harness during the incubation phase:
+
+```yaml
+workspace('my-app'):
+  harness:
+    path: ./local-harness
+  attributes:
+    php:
+      version: 8.3
+```
+
+Later, when you convert it into a distributable harness, you can switch to a
+package reference (e.g. `inviqa/php`) after publishing.
+
+### Layering Within an In-Repo Harness
+
+If you need internal layering (base vs overrides) before packaging, emulate it
+by splitting directories and merging them manually at build time, or by adding
+an `overlay` directory referencing additional overrides:
+
+```yaml
+workspace('my-app'):
+  harness:
+  path: ./local-harness
+  overlay: tools/workspace-overlay    # optional
+```
+
+`tools/workspace-overlay/` contents will rsync over the realised `.my127ws/`
+tree prior to confd rendering, just like with external harness packages.
+
+### Migrating to a Published Package Later
+
+When stable:
+
+1. Extract the authoritative harness directory into its own repository.
+2. Add packaging metadata (e.g., `harness.yml`, licensing, versioning).
+3. Publish (internal registry / VCS tag / package archive).
+4. Update project `workspace.yml` to reference the new harness package name.
+5. Remove `path:` harness reference and any now-redundant local harness files.
+
+### Pros / Cons of Staying In-Repo Longer
+
+| Aspect | Benefit | Trade-off |
+|--------|---------|-----------|
+| Velocity | Immediate edits / enables | Harder to share across projects |
+| Risk | Low risk while iterating | Drift from community improvements |
+| Review | PR review with app code | PR noise (infra + app mixed) |
+| Versioning | Single repo version gate | No semantic version boundary |
+| Distribution | No publish pipeline needed | Cannot reuse externally yet |
+
+### Choosing Between Minimal vs Complete In-Repo Harness
+
+| Scenario | Minimal Local Harness | Complete In-Repo Harness |
+|----------|-----------------------|--------------------------|
+| Only a few generated files | Ideal | Overkill |
+| Need scripts + multi-dir templates | Cumbersome | Appropriate |
+| Planning to upstream soon | Acceptable | Good staging step |
+| Heavy reuse across teams | Insufficient | Transition to package |
+| Strict separation infra/app needed | Less clear | Can isolate infra tree |
+
+### Practical Tips
+
+- Keep template stems stable early to avoid noisy future diffs when packaging.
+- Group harness docs under `docs/` but avoid duplicating repository README
+  content—link instead.
+- Use explicit `dst:` only when placing files outside harness tree.
+- Periodically run a clean rebuild to ensure no accidental reliance on stale
+  generated artefacts:
+
+```bash
+ws disable && rm -rf .my127ws && ws enable
+```
+
+### When to Stop and Publish
+
+Publish when:
+
+1. Another project wants the same harness logic.
+2. You need versioned change control independent of application code.
+3. Upgrade cadence diverges from application release cadence.
+
+Until then, the complete in-repo harness path lets you iterate safely while
+adhering to the same lifecycle (`enable` → `prepare` → render) used by official
+packages.
 
 ## Comparison with Custom Command Approach
 

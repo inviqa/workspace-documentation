@@ -310,6 +310,9 @@ Each path passed to `ConfdFactory::create($path)` corresponds to a directory pre
 > template discovery, and keeps layering semantics explicit. A future
 > enhancement could add a `standaloneConfd:` style configuration to
 > `workspace.yml`, but that does **not** exist at present.
+>
+> For an officially documented workaround describing the "minimal local harness"
+> approach, see: [Local Harness Pattern](local-harness.md).
 
 
 ### 3. Rendering Order & Last-Write Wins
