@@ -1,0 +1,34 @@
+---
+name: Documentation Duplicate Command Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      fail-on-duplicates:
+        description: "Fail if duplicates found (true/false)"
+        required: false
+        default: "true"
+#  push:
+#    branches: [ main, master ]
+#  pull_request:
+#    branches: [ main, master ]
+
+jobs:
+  duplicate-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run duplicate command listing script
+        run: |
+          bash workspace-documentation/tools/check-duplicate-commands.sh || {
+            flag="${{ github.event.inputs.fail-on-duplicates }}"
+            if [ "$flag" = "true" ]; then
+              echo "Duplicates detected. Failing run." >&2; exit 1
+            else
+              echo "Duplicates detected but not failing (override)." >&2
+            fi; }
+
+      - name: Summary
+        run: echo "Duplicate command check completed." >> $GITHUB_STEP_SUMMARY

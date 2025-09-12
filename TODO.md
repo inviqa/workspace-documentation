@@ -94,6 +94,49 @@ Documentation project.
   - Live configuration examples
   - Interactive harness explorer
 
+- [ ] **Add generated table of contents to long docs**
+  - Evaluate markdown linter compatibility (headings, HTML usage)
+  - Insert TOC markers (e.g., `<!-- TOC -->`) in long documents
+  - Automate TOC generation during documentation build
+  - Decide on automation vs. manual maintenance
+
+- [ ] **Introduce metadata badge block**
+  - Add status / last-updated / source / related links block below H1
+  - Apply to deep dives (confd, implementation references, command index)
+  - Ensure no conflicts with lint rules (MD041, MD001, MD031)
+
+- [ ] **Automate implementation reference regeneration**
+  - Script parses `Builder.php`, `Installer.php`, service scripts
+  - Rebuild tables in `implementation-references.md`
+  - Provide `--check` mode for CI drift detection
+  - Hook into documentation build pipeline
+
+- [ ] **Automate implementation of harness commands and functions documentation regeneration**
+  - Script parses the harness command and functions and scripts files
+  - Rebuild tables in `harness-<harness>-commands-functions.md`
+  - Provide `--check` mode for CI drift detection
+  - Hook into documentation build pipeline
+
+- [ ] **Audit overlaps between command index and harness summary**
+  - Compare `workspace-commands-functions-index.md` vs `all-harnesses-summary.md`
+  - Identify duplicated sections or conflicting descriptions
+  - Decide canonical file per concept (core vs per-harness aggregation)
+  - Add cross-links where consolidation is chosen over duplication
+  - Produce remediation list (merge, trim, relocate) and update docs accordingly
+
+- [ ] **Automate highlights section generation**
+  - Script extracts representative commands per category from canonical index
+  - Regenerates "Quick Reference" highlights in `all-harnesses-summary.md`
+  - Provides `--check` mode to detect manual drift
+  - Support allowlist for intentional omissions
+  - Integrate into documentation CI pipeline
+
+- [ ] **Add duplicate command allowlist support**
+  - Introduce `tools/duplicate-command-allowlist.txt` (glob or exact matches)
+  - Modify duplicate detection script to ignore allowlisted patterns
+  - Document usage in README (Canonical Sources section)
+  - Add CI failure guidance for newly added duplicates
+
 ### 6. Community and Maintenance
 
 - [ ] **Establish contribution guidelines**
