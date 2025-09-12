@@ -196,6 +196,12 @@ the name consistent for clarity) mirroring the directory semantics of an
 upstream harness (compare with `harness-php/_twig/`, `docker/`, `harness/`,
 etc.). Example minimal scaffold:
 
+> Overlay vs Skeleton: if, during this evolution, you start needing centrally
+> managed CI/auth/ignore policy files that should be refreshable across
+> multiple projects, introduce an `application/overlay/` directory. See the
+> [Application Overlay](application-overlay.md) deep dive for rationale and
+> lifecycle. Keep `application/skeleton/` for one‑time scaffolding only.
+
 ```text
 workspace.yml
 local-harness/
@@ -367,7 +373,7 @@ easy path to later packaging.
 
 | Use Case | Why Overlay Helps | Alternative | Worth? |
 |----------|-------------------|------------|--------|
-| Simulate future layering | Mirrors upstream model | Dir naming (`base/`) | Likely |
+| Simulate layering | Mirrors upstream model | Dir naming (`base/`) | Likely |
 | Prepare for extraction | Keeps publish set clean | Manual curate later | Yes |
 | Risky experiments | Easy to drop layer | Git branch / revert | Maybe |
 | Multi-variant builds | Swap `overlay:` path | Template conditionals | Yes |

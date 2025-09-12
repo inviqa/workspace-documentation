@@ -194,6 +194,21 @@ Notes:
 
 Keep only what you will actually use. Everything above is optional except `harness/config/confd.yml`.
 
+### 3.3 Overlay vs Skeleton (Summary)
+
+| Aspect | `application/overlay/` | `application/skeleton/` |
+|--------|------------------------|-------------------------|
+| Purpose | Managed CI/auth/ignore bootstrap | One-time scaffold docs |
+| Reapply | Yes (after harness upgrades) | Rarely (project takes ownership) |
+| Delivery | Rendered via `confd`, then copied/applied | Rendered once on init |
+| Typical Files | `Jenkinsfile`, `auth.json`, `.dockerignore` | README fragment |
+| Ownership After Apply | Still harness-managed | Project-managed |
+
+Introduce `application/overlay/` once you need centrally governed CI or
+credential bootstrap across multiple projects. Start without it if unsure.
+
+Deep dive: see [Application Overlay](application-overlay.md).
+
 ### Layout FAQ & Rationale
 
 **Why separate `application/overlay` and `application/skeleton`?**  Overlay

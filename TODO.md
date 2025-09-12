@@ -123,6 +123,12 @@ Documentation project.
   - Provide golden test script and sample `harness.yml`
   - Add GitHub Actions workflow for tag publication
   - Cross-link from documentation (building-a-harness.md) once live
+  
+- [ ] **Propagate Application Overlay doc links**
+  - Insert short "Managed Overlay" section into each first-party harness README
+  - Link to `application-overlay.md` canonical deep dive
+  - Note which overlay files are managed (`Jenkinsfile`, `auth.json`, `.dockerignore`)
+  - Add provenance header guidance if adopted
 
 - [ ] **Audit overlaps between command index and harness summary**
   - Compare `workspace-commands-functions-index.md` vs `all-harnesses-summary.md`
@@ -143,6 +149,29 @@ Documentation project.
   - Modify duplicate detection script to ignore allowlisted patterns
   - Document usage in README (Canonical Sources section)
   - Add CI failure guidance for newly added duplicates
+
+#### Optional Enhancements
+
+- [ ] **Standardise overlay apply command snippet**
+  - Add a consistent snippet showing how to (re)apply the managed overlay
+  - Insert snippet into `building-a-harness.md`, `local-harness.md`, and
+    `application-overlay.md`
+  - Mention idempotency expectations and safe re-run guidance
+  - Provide copy-paste command (e.g. `ws harness overlay apply` if adopted)
+
+- [ ] **Implement provenance header automation for managed overlay files**
+  - Define metadata header format (Managed-By, Template-Source, Checksum)
+  - Write generator script to stamp/update headers during publish process
+  - Add CI check verifying header presence and checksum integrity
+  - Document header specification in `application-overlay.md`
+  - Optionally emit remediation instructions on failure
+
+- [ ] **Add overlay drift detection tooling**
+  - Implement `ws overlay status` (dry-run comparing applied files vs template)
+  - Show concise diff summary; support `--diff` for full output
+  - Exit non-zero on drift when run with `--strict` flag (CI usage)
+  - Integrate optional CI job to prevent stale overlay artefacts
+  - Document remediation workflow (reapply or accept & update template)
 
 ### 6. Community and Maintenance
 
