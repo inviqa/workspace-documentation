@@ -1,0 +1,58 @@
+name: Harness Publish (Example)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch: {}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP (if needed for functions/tests)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+        continue-on-error: true
+
+      - name: Install Workspace CLI
+        run: |
+          brew tap my127/formulae || true
+          brew install my127/formulae/workspace || true
+
+      - name: Render Harness (confd)
+        run: |
+          ws harness prepare || ws enable
+
+      - name: Golden Outputs Test
+        run: |
+          bash tools/test-golden-confd.sh
+
+      - name: Lint Shell Scripts
+        uses: ludeeus/action-shellcheck@v2
+        with:
+          scandir: .
+        continue-on-error: true
+
+      - name: Build Archive
+        run: |
+          mkdir -p build
+          tar -czf build/harness-${GITHUB_REF_NAME}.tgz local-harness/
+
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: harness-${{ github.ref_name }}
+          path: build/harness-${{ github.ref_name }}.tgz
+
+      - name: (Optional) Push to Package Registry
+        if: false  # Replace when implementing real publish
+        run: |
+          echo 'Add curl / registry publish step here'

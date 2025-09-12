@@ -258,6 +258,38 @@ workspace('my-app'):
 Later, when you convert it into a distributable harness, you can switch to a
 package reference (e.g. `inviqa/php`) after publishing.
 
+### Minimal `harness.yml` Template (When Preparing to Publish)
+
+When you are ready to package the current `local-harness/` into a reusable
+artifact, introduce a `harness.yml` file at the root of the *authoritative*
+directory (the one that will be archived / tagged). A minimal starting point:
+
+```yaml
+name: acme/generic
+version: 0.1.0
+summary: Generic reusable development harness.
+license: MIT
+maintainers:
+  - name: Platform Team
+    email: platform@example.com
+compatibility:
+  workspace: ">=1.0 <2.0"   # adjust to supported CLI versions
+  docker: ">=24"            # optional; document tested range
+notes:
+  deprecations: []          # list identifiers or paths scheduled for removal
+```
+
+Guidelines:
+
+- Keep `version` aligned with your changelog tag.
+- Add additional metadata *only when needed* (avoid premature surface area).
+- Track upcoming removals under `notes.deprecations` (see deprecation section
+  in the main README once added).
+
+> Deprecation planning: see **Deprecation Guidelines** in `README.md` and the
+> "Deprecation Policy" portion of [building-a-harness.md](building-a-harness.md)
+> before removing or renaming public files / commands.
+
 ### Layering Within an In-Repo Harness
 
 If you need internal layering (base vs overrides) before packaging, emulate it
@@ -335,12 +367,12 @@ easy path to later packaging.
 
 | Use Case | Why Overlay Helps | Alternative | Worth? |
 |----------|-------------------|------------|--------|
-| Simulate future layering | Mirrors upstream model | Dir naming (`base/`, `override/`) | Yes (if packaging) |
+| Simulate future layering | Mirrors upstream model | Dir naming (`base/`) | Likely |
 | Prepare for extraction | Keeps publish set clean | Manual curate later | Yes |
 | Risky experiments | Easy to drop layer | Git branch / revert | Maybe |
-| Multi-variant builds | Swap `overlay:` path | Template conditionals | Yes (variants) |
-| Internal-only scripts | Separate review / filter | Git attrs / filters | Sometimes |
-| Gradual vendor migration | Override until replaced | Fork earlier | Yes (phased) |
+| Multi-variant builds | Swap `overlay:` path | Template conditionals | Yes |
+| Internal-only scripts | Separate review / filter | Git attrs | Sometimes |
+| Gradual vendor migration | Override until replaced | Fork earlier | Yes |
 | Dev sandboxing | Ephemeral tweaks | Feature branch | Rare |
 
 #### Mental Model

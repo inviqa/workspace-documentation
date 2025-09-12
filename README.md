@@ -219,3 +219,25 @@ The following focused documents provide additional technical depth:
 
 ---
 
+## Deprecation Guidelines (Summary)
+
+Harness maintainers should follow a predictable deprecation process:
+
+1. Mark upcoming removals (template paths, command names, attribute keys) in the
+  harness CHANGELOG one MINOR version before removal.
+2. If feasible, provide a shim (wrapper command or pass-through template) that
+  emits a warning rather than hard-breaking immediately.
+3. Track active deprecations in the harness manifest (`harness.yml`) under a
+  field such as `notes.deprecations` (see example in
+  [building-a-harness.md](building-a-harness.md)).
+4. Remove deprecated surface only in the next MAJOR release unless a security
+  or correctness issue forces earlier action.
+5. Communicate upgrade steps (attribute renames, destination file changes)
+  clearly in release notes.
+
+Full rationale, contract definition, and versioning detail: see
+**[Building a Reusable Harness](building-a-harness.md)** (Sections: Versioning,
+Backwards Compatibility Contract, Deprecation Policy).
+
+---
+

@@ -117,6 +117,13 @@ Documentation project.
   - Provide `--check` mode for CI drift detection
   - Hook into documentation build pipeline
 
+- [ ] **Create dedicated harness-template repository**
+  - Scaffold repo mirroring the "Full Featured Reference Layout" (sanitised)
+  - Include minimal starter variant branch (`starter`) with ultra-lean layout
+  - Provide golden test script and sample `harness.yml`
+  - Add GitHub Actions workflow for tag publication
+  - Cross-link from documentation (building-a-harness.md) once live
+
 - [ ] **Audit overlaps between command index and harness summary**
   - Compare `workspace-commands-functions-index.md` vs `all-harnesses-summary.md`
   - Identify duplicated sections or conflicting descriptions

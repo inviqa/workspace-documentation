@@ -32,39 +32,191 @@ duplication.
 ## 3. Authoritative Layout (Incubation Phase)
 
 During incubation you keep sources inside the consuming repository via
-`harness.path`. Suggested starting skeleton (derived from `harness-php`):
+`harness.path`. Below is a layout that **faithfully mirrors the real
+first‑party harness directory model** (using `harness-php` as the structural
+reference) while stripping language / stack specific file content. Retain the
+shape even if you start with many empty files – it makes promotion to a
+packaged harness smoother.
+
+### 3.1 Minimal Starter (Ultra‑Lean)
+
+Use this if you want the **absolute minimum viable harness** to get rendering
+and a single custom command working. Grow toward the full layout only when a
+real need appears.
 
 ```text
 local-harness/
-  config/
-    confd.yml
-    commands.yml          # workspace command definitions (optional initially)
-    functions.yml         # custom expression/command functions (optional)
-    events.yml            # installer lifecycle hooks (optional)
-    pipeline.yml          # build/publish workflows (optional)
-    external-images.yml   # helper commands (example pattern)
-    secrets.yml           # secret related commands (optional)
-  attributes/
-    common.yml            # default attribute values
-    environment/
-      local.yml           # env-specific overrides
-  docker/                 # docker image build contexts (if any)
-    image/
-      base/Dockerfile.twig
-  helm/                   # helm charts (optional)
-    app/
-      values.yaml.twig
-      Chart.yaml.twig
   harness/
-    scripts/
-      enable.sh.twig
-      disable.sh
-  docs/
-    README.partial.md.twig
-  LICENSE (if planning to publish)
+    config/
+      confd.yml          # required: maps templates
+      commands.yml       # optional: a single helper command
+    attributes/
+      common.yml         # optional: a few defaults (namespace, etc.)
 ```
 
-Keep only what you will actually use. Everything above is optional except `config/confd.yml`.
+Example minimal `confd.yml`:
+
+```yaml
+confd('harness:/'):
+  - { src: harness/scripts/enable.sh }
+```
+
+You can defer adding `harness.yml` until you publish.
+
+### 3.2 Full Featured Reference Layout
+
+```text
+local-harness/
+  harness.yml                      # (only once you publish; omit at very start)
+  README.md                        # root readme for the harness itself
+  LICENSE                          # choose a license if distributing
+  docker-compose.yml.twig          # main compose template (optional initially)
+  docker-sync.yml.twig             # sync tooling template (optional)
+  mutagen.yml.twig                 # mutagen config template (optional)
+  _twig/                           # global twig helpers
+    docker-compose.yml/            # sub-helper dirs (keep if you need advanced composition)
+      application.yml.twig         # application amalgamation layer
+      environment.yml.twig         # environment conditional fragments
+      service/                     # per-service compose fragments
+        console.yml.twig
+        cron.yml.twig
+        nginx.yml.twig
+        relay.yml.twig
+        webapp.yml.twig
+  application/
+  overlay/                       # project bootstrap overlay (scaffolding +
+                   # CI bits)
+      Jenkinsfile.twig             # CI pipeline example (generic)
+      auth.json.twig               # credentials placeholder
+  .dockerignore.twig           # overlay dockerignore (rendered to
+               # workspace root)
+      _twig/
+        .dockerignore/             # split dynamic/static fragments example
+          dynamic.twig
+          static.twig
+    skeleton/
+      README.md.twig               # README fragment for newly bootstrapped app
+  docker/
+    image/                         # image build contexts (multi-service capable)
+      console/                     # generic "console" / toolbox image
+        .dockerignore
+        Dockerfile.twig
+        root/
+          entrypoint.sh.twig
+          entrypoint.dynamic.sh    # (optional dynamic stub)
+          home/
+            build/
+              .my.cnf.twig         # example of small config artefact
+          lib/
+            functions.sh           # shared shell helpers
+            sidekick.sh            # auxiliary logic script
+            task/                  # task scripts grouped logically
+              init.sh.twig
+              install.sh.twig
+              migrate.sh.twig
+              welcome.sh.twig
+              build/
+                frontend.sh.twig
+                backend.sh.twig
+              database/
+                import.sh.twig
+              composer/
+                install.sh.twig
+              overlay/
+                apply.sh           # example non‑templated script
+          usr/
+            local/
+              bin/
+                send_mail          # utility binary / script placeholder
+      web/                          # example runtime service
+        Dockerfile.twig
+        root/
+          etc/                     # service config tree
+      worker/                       # (optional additional runtime service)
+        Dockerfile.twig
+      proxy/                        # (example reverse proxy service)
+        Dockerfile.twig
+  helm/                             # optional helm charts / deployment blueprints
+    app/
+      Chart.yaml.twig
+      values.yaml.twig
+      values-preview.yaml.twig      # (additional environment values)
+      values-production.yaml.twig   # (additional environment values)
+      _twig/
+        templates/                  # example templated chart resources
+          service/varnish/configmap.yaml.twig
+    qa/
+      Chart.yaml.twig
+      values.yaml.twig
+      requirements.yaml.twig        # (if you use legacy requirements pattern)
+  .ci/                             # CI helper scripts / workflows (optional)
+  harness/
+    config/                         # harness runtime config (public-ish entrypoints)
+      confd.yml                     # REQUIRED: maps templates -> materialised files
+      commands.yml                  # developer command definitions
+      functions.yml                 # custom expression & command functions
+      events.yml                    # lifecycle hooks
+      pipeline.yml                  # build / publish pipeline commands
+      external-images.yml           # helper image pre-pull / compose augmentation
+      secrets.yml                   # secret helper commands (placeholders, no secrets)
+      docker-sync.yml               # additional sync config fragments (optional)
+      mutagen.yml                   # additional sync config fragments (optional)
+    attributes/
+      common.yml                    # default attribute values
+      docker-base.yml               # base docker attribute customisations
+      environment/
+        local.yml                   # local env overrides
+        pipeline.yml                # CI / pipeline env overrides
+    scripts/
+      enable.sh.twig                # orchestrates initial enable steps
+      disable.sh                    # disable hook script
+      destroy.sh                    # destroy / tear‑down script
+      docker_sync.sh                # helper for docker-sync (if used)
+      mutagen.sh                    # helper for mutagen (if used)
+  latest-mutagen-release.php    # (EXAMPLE: if you auto-resolve versions;
+             # replace w/ generic helper)
+  docs/
+    README.partial.md.twig          # additional docs fragments for consumer project
+  tools/
+    test-golden-confd.sh            # golden output test script (if adopted early)
+  tests/
+    golden/
+      confd/                        # stored rendered snapshot tree
+```
+
+Notes:
+
+- Replace service directory names (`web`, `worker`, `proxy`) with
+  domain‑relevant ones (e.g. `api`, `frontend`).
+- Omit any directories you truly do not need – but the above mirrors a
+  **full featured** harness shape so you understand where concerns live.
+- Keep `harness/config/confd.yml` as the *only mandatory* file to start rendering.
+
+Keep only what you will actually use. Everything above is optional except `harness/config/confd.yml`.
+
+### Layout FAQ & Rationale
+
+**Why separate `application/overlay` and `application/skeleton`?**  Overlay
+seeds CI and bootstrap artefacts directly into a consumer project; skeleton
+holds scaffold content (e.g. README fragment) used at project creation time.
+
+**Why the `_twig/docker-compose.yml/service/*.yml.twig` fragments?**  This lets
+you enable or disable services via attributes without editing a monolithic
+compose file; each service fragment can be conditionally included.
+
+**Do I need Helm directories from day one?**  No. Omit `helm/` until you have a
+real deployment target or need chart templating.
+
+**Why keep both `commands.yml` and shell scripts?**  Commands provide a stable
+CLI contract; scripts encapsulate procedural logic. This separation simplifies
+refactoring without breaking consumer habits.
+
+**Should `harness.yml` duplicate attributes already in files?**  Only early on;
+once the harness grows, centralise persistent defaults in
+`harness/attributes/` and keep the manifest lean.
+
+**How big before splitting into multiple harnesses?**  If unrelated stacks or
+teams evolve at different cadences, create a dedicated harness per concern.
 
 ## 4. `harness.path` → Path-Based Development
 
@@ -229,7 +381,7 @@ If you template Helm charts:
 
 | Area | Strategy | Tooling Idea |
 |------|----------|--------------|
-| Confd outputs | Golden file diff test | Temp render + compare snapshot |
+| Confd outputs | Golden file diff test | `tools/test-golden-confd.sh` |
 | Commands | Smoke run (`enable`, `disable`) | Exit codes + key artefacts |
 | Templates | Lint (YAML, ShellCheck, Markdown) | Pre-commit hooks / CI stage |
 | Functions | Unit test pure helpers | Lightweight test harness |
@@ -237,6 +389,15 @@ If you template Helm charts:
 
 Automate *minimum viable* first: ensure `ws harness prepare` succeeds in CI
 with a clean tree.
+
+Example golden test update run:
+
+```bash
+bash tools/test-golden-confd.sh --update
+git add tests/golden/confd
+```
+
+CI integration example: see `.github/workflows/harness-publish.yml`.
 
 ## 15. From Path Harness to Packaged Harness
 
@@ -253,22 +414,44 @@ quickly if issues surface.
 
 ## 16. `harness.yml` Manifest
 
-Example generic manifest:
+The manifest used by first‑party harnesses is a regular workspace config
+fragment. The real `harness-php` file looks structurally like this (sanitised):
 
 ```yaml
-name: acme/generic
-version: 0.1.0
-summary: Generic container + scripts harness for internal applications.
-maintainers:
-  - name: Platform Team
-    email: platform@example.com
-license: MIT
-compatibility:
-  workspace: ">=1.0 <2.0"
-  docker: ">=24"
+---
+harness('acme/generic'):
+  description: A docker based development environment for ACME applications
+  require:
+    services:
+      - proxy        # list only infra services your harness expects to co-exist
+      - mail         # (example) auxiliary service requirement
+    confd:
+      - harness:/    # ensure harness root mapping applies (confd block exists)
+---
+attributes:
+  app:
+    services:
+      - web          # default enabled app-level services (generic names)
+      - worker       # add more as needed
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml
 ```
 
-Add fields for: required CLIs, deprecation notices, upgrade notes (if policy emerges).
+Key points:
+
+- Multiple YAML documents separated by `---` – this is intentional and
+  supported.
+- First document declares the harness identity + requirements.
+- Second establishes baseline attributes (these can also live in dedicated
+  files under `harness/attributes/`; colocating early can be convenient).
+- Third pulls in the wider attribute/config sets with environment conditional import.
+
+You may add further documents (e.g. deprecation metadata) as conventions evolve.
+
+Add fields for: required CLIs, deprecation notices, upgrade notes (once policy formalised).
 
 ## 17. Versioning & Changelog
 
