@@ -317,6 +317,107 @@ When stable:
 ws disable && rm -rf .my127ws && ws enable
 ```
 
+### Do I Need an Overlay with a Complete In-Repo Harness?
+
+You do **not** have to use an `overlay` when everything lives in
+`local-harness/`. An overlay remains an *optional* second local layer that is
+useful only when you want separation of concerns, simulated layering, or an
+easy path to later packaging.
+
+#### When You Can Skip It
+
+- All harness artefacts (templates, scripts, docs) evolve together.
+- No need to distinguish "core" vs "project-only" changes.
+- You are not yet preparing to extract/publish a reusable package.
+- Minimal file set (a few templates) – overlay would just add noise.
+
+#### When an Overlay Still Adds Value
+
+| Use Case | Why Overlay Helps | Alternative | Worth? |
+|----------|-------------------|------------|--------|
+| Simulate future layering | Mirrors upstream model | Dir naming (`base/`, `override/`) | Yes (if packaging) |
+| Prepare for extraction | Keeps publish set clean | Manual curate later | Yes |
+| Risky experiments | Easy to drop layer | Git branch / revert | Maybe |
+| Multi-variant builds | Swap `overlay:` path | Template conditionals | Yes (variants) |
+| Internal-only scripts | Separate review / filter | Git attrs / filters | Sometimes |
+| Gradual vendor migration | Override until replaced | Fork earlier | Yes (phased) |
+| Dev sandboxing | Ephemeral tweaks | Feature branch | Rare |
+
+#### Mental Model
+
+Final realised tree ordering (top overwrites lower):
+
+1. (Optional) downloaded harness packages (not present if only path harness)
+2. Path harness directory: `local-harness/`
+3. Overlay directory (if configured)
+4. `confd` mapping order (last write wins per destination)
+
+If you have only (2) and (4), you already get deterministic rendering.
+
+#### Practical Patterns
+
+1. **Incubation Before Packaging**  
+   Keep `local-harness/` pristine; put ad-hoc tweaks in `tools/workspace-overlay/`.
+
+2. **Multi-Variant in One Repo**  
+   Structure:
+
+   ```text
+   local-harness/
+   overlays/
+     variant-a/
+     variant-b/
+   ```
+
+   Select with:
+
+   ```yaml
+   workspace('app'):
+     harness:
+       path: ./local-harness
+     overlay: overlays/variant-a
+   ```
+
+3. **Refactor Staging**  
+   Move refactored replacement files into overlay first, diff outputs, then promote.
+
+4. **Conditional Feature Trials**  
+   Overlay holds experimental scripts; delete directory to revert completely.
+
+#### Overlay vs Pseudo-Layers Inside `local-harness/`
+
+Without overlay you can still emulate layering:
+
+```text
+local-harness/
+  base/
+  overrides/
+  config/confd.yml
+```
+
+Then map both regions in `confd.yml`. Trade-off: harder to extract a clean
+package later (you must manually separate base vs override content).
+
+#### Smells (Overlay Misuse)
+
+- Exists but is empty or rarely touched – delete it.
+- Long-term project logic stranded in overlay (belongs in harness core).
+- Used to "delete" files by omission (overlay cannot remove, only overwrite).
+- Becomes a dumping ground for unrelated experiments.
+
+#### Decision Summary
+
+| Situation | Use Overlay? | Rationale |
+|-----------|--------------|-----------|
+| Early minimal adoption | No | Extra ceremony |
+| Preparing to publish | Yes | Clean separation aids extraction |
+| Multiple variants required | Yes | Swapable directory pointer |
+| Occasional one-off tweak | No | Commit directly to harness |
+| Heavy experimentation phase | Maybe | If churn would pollute core |
+
+If unsure, start **without** an overlay. Introduce it deliberately when a
+clear separation goal emerges.
+
 ### When to Stop and Publish
 
 Publish when:
