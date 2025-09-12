@@ -214,6 +214,7 @@ The following focused documents provide additional technical depth:
 - Harness file materialisation: [harness-confd-file-mappings.md](harness-confd-file-mappings.md)
 - Mutagen integration: [mutagen-integration.md](mutagen-integration.md)
 - Visual harness tree: [harness-tree.md](harness-tree.md)
+- Local harness pattern: [local-harness.md](local-harness.md)
 
 ---
 
