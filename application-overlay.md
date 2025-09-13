@@ -2,7 +2,6 @@
 
 > Canonical reference for the `application/overlay/` directory pattern in a
 > Workspace harness (distinct from `application/skeleton/`).
-
 <!-- TOC -->
 ## Table of Contents
 
@@ -17,7 +16,7 @@
 - [Provenance / Drift Detection (Optional Enhancements)](#provenance--drift-detection-optional-enhancements)
 - [Quick Reference](#quick-reference)
 - [Checklist (Author Perspective)](#checklist-author-perspective)
-- [12. See Also](#12-see-also)
+- [See Also](#12-see-also)
 
 <!-- /TOC -->
 
@@ -176,7 +175,7 @@ Potential future improvements:
 - [ ] Release notes mention overlay file additions/removals
 - [ ] (Optional) Provenance header adopted
 
-## 12. See Also
+## See Also
 
 - Building a Harness (structure & promotion)
 - Local Harness Pattern
@@ -185,5 +184,3 @@ Potential future improvements:
 ---
 *Evolve this document as overlay patterns mature; consolidate variants rather
 than forking.*
-
-<!-- /TOC -->
