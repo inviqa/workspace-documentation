@@ -1,5 +1,28 @@
 # Harness Drupal8 - Commands and Functions Documentation
 
+<!-- QUICK-INDEX -->
+**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: `harness-drupal8/harness/config/commands.yml`](#file-harness-drupal8harnessconfigcommandsyml)
+    - [Environment Management Commands](#environment-management-commands)
+    - [Network Management Commands](#network-management-commands)
+    - [Container Management Commands](#container-management-commands)
+    - [Development Tools Commands](#development-tools-commands)
+    - [Asset Management Commands](#asset-management-commands)
+    - [Frontend Development Commands](#frontend-development-commands)
+    - [Service Management Commands](#service-management-commands)
+    - [Configuration Management Commands](#configuration-management-commands)
+    - [Feature Toggle Commands](#feature-toggle-commands)
+  - [File: `harness-drupal8/harness/config/functions.yml`](#file-harness-drupal8harnessconfigfunctionsyml)
+- [Functions](#functions)
+<!-- /TOC -->
+
 This document provides comprehensive documentation of all commands and
 functions available in the harness-drupal8 harness for Drupal 8/9/10
 application development.
@@ -249,12 +272,12 @@ practices report
 - **Execution**: Dependency-ordered build of all enabled services
 - **Example output**:
 
-```text
-Pulling external images...
-Building console...
-Building php-fpm...
-Building nginx...
-```
+  ```text
+  Pulling external images...
+  Building console...
+  Building php-fpm...
+  Building nginx...
+  ```
 
 **`ws app build <service>`** - Build specific service
 
@@ -275,12 +298,12 @@ Building nginx...
   - Logout from registry
 - **Example output**:
 
-```text
-Login Succeeded
-Pushing myapp/console:latest...
-Pushing myapp/nginx:latest...
-Logout Succeeded
-```
+  ```text
+  Login Succeeded
+  Pushing myapp/console:latest...
+  Pushing myapp/nginx:latest...
+  Logout Succeeded
+  ```
 
 **`ws app publish chart <release> <message>`** - Publish Helm chart
 
@@ -295,12 +318,12 @@ Logout Succeeded
   - Commits and pushes changes
 - **Example output**:
 
-```text
-Cloning chart repository...
-Syncing Helm templates...
-Committing chart updates...
-Pushing to repository...
-```
+  ```text
+  Cloning chart repository...
+  Syncing Helm templates...
+  Committing chart updates...
+  Pushing to repository...
+  ```
 
 **`ws app deploy <environment>`** - Deploy to Kubernetes
 
@@ -313,12 +336,12 @@ Pushing to repository...
   - Performs Helm upgrade/install
 - **Example output**:
 
-```text
-Connecting to cluster...
-Building Helm dependencies...
-Deploying to namespace...
-Release deployed successfully
-```
+  ```text
+  Connecting to cluster...
+  Building Helm dependencies...
+  Deploying to namespace...
+  Release deployed successfully
+  ```
 
 #### Helm Management Commands
 
@@ -342,17 +365,18 @@ Release deployed successfully
   - Validates manifests against schemas
 - **Example output**:
 
-```text
-PASS - Deployment is valid
-PASS - Service is valid
-PASS - ConfigMap is valid
-```
+  ```text
+  PASS - Deployment is valid
+  PASS - Service is valid
+  PASS - ConfigMap is valid
+  ```
 
 ### File: `harness-drupal8/harness/config/external-images.yml`
 
 #### External Image Management Commands
 
-**`ws external-images config [--skip-exists] [<service>]`** - Generate external images config
+**`ws external-images config [--skip-exists] [<service>]`** - Generate
+external images config
 
 - **Purpose**: Creates docker-compose configuration for external image pulling
 - **Options**: `--skip-exists` - Skip images that already exist locally
@@ -360,14 +384,14 @@ PASS - ConfigMap is valid
 - **Implementation**: Generates docker-compose YAML for image pulling
 - **Example output**:
 
-```yaml
+  ```yaml
   version: '3'
   services:
     mysql_8_0:
       image: mysql:8.0
     redis_6_alpine:
       image: redis:6-alpine
-```
+  ```
 
 **`ws external-images pull [<service>]`** - Pull external images
 
@@ -377,11 +401,11 @@ PASS - ConfigMap is valid
 - **Execution**: Uses generated config to pull images with docker-compose
 - **Example output**:
 
-```text
-Pulling mysql_8_0...
-Pulling redis_6_alpine...
-Pull complete
-```
+  ```text
+  Pulling mysql_8_0...
+  Pulling redis_6_alpine...
+  Pull complete
+  ```
 
 **`ws external-images ls [--all]`** - List external images
 
@@ -390,11 +414,11 @@ Pull complete
 - **Implementation**: Lists images from service analysis
 - **Example output**:
 
-```text
-mysql:8.0
-redis:6-alpine
-nginx:1.21-alpine
-```
+  ```text
+  mysql:8.0
+  redis:6-alpine
+  nginx:1.21-alpine
+  ```
 
 **`ws external-images rm [--force]`** - Remove external images
 
@@ -403,11 +427,11 @@ nginx:1.21-alpine
 - **Execution**: Removes all external images listed by `ls` command
 - **Example output**:
 
-```text
-Untagged: mysql:8.0
-Untagged: redis:6-alpine
-Deleted: sha256:abc123...
-```
+  ```text
+  Untagged: mysql:8.0
+  Untagged: redis:6-alpine
+  Deleted: sha256:abc123...
+  ```
 
 ---
 
@@ -436,6 +460,7 @@ Deleted: sha256:abc123...
 - **Parameters**: `data` - Data structure to convert
 - **Implementation**: Symfony YAML component with 100-level depth, 2-space indentation
 - **Example output**:
+
   ```yaml
   database:
     host: localhost
@@ -472,7 +497,8 @@ Deleted: sha256:abc123...
 
 - **Purpose**: Extracts local development relevant properties from service definitions
 - **Parameters**: `services` - Service configuration array
-- **Filtering**: Keeps enabled, environment, environment_dynamic, extends, image, resources
+- **Filtering**: Keeps enabled, environment, environment_dynamic, extends,
+  image, resources
 - **Example output**: Simplified service config with only local-relevant settings
 
 **`filter_empty(array_input)`** - Remove empty values from array
@@ -501,12 +527,15 @@ Deleted: sha256:abc123...
 
 - **Purpose**: Extracts comprehensive image information from docker-compose services
 - **Parameters**: `filterService` - Limit to specific service (optional)
-- **Implementation**: 
+- **Implementation**:
+
   - Parses docker-compose configuration
   - Analyzes Dockerfile FROM statements
   - Tracks image platforms and upstream dependencies
-- **Example output**: 
+- **Example output**:
+
   ```php
+  // Example PHP snippet
   [
     'console' => [
       'image' => 'myapp/console:latest',
@@ -531,7 +560,8 @@ Deleted: sha256:abc123...
 - **Purpose**: Creates Docker authentication configuration JSON
 - **Parameters**: `registryConfig` - Registry credentials (url, username, password)
 - **Implementation**: Base64 encodes credentials and formats as Docker config
-- **Example output**: 
+- **Example output**:
+
   ```json
   {
     "auths": {
@@ -554,7 +584,7 @@ Deleted: sha256:abc123...
 
 - **Purpose**: Creates URL-friendly string from arbitrary text
 - **Parameters**: `text` - Input text to convert
-- **Implementation**: 
+- **Implementation**:
   - Replaces non-alphanumeric with hyphens
   - Converts to ASCII transliteration
   - Removes special characters
@@ -562,73 +592,79 @@ Deleted: sha256:abc123...
 - **Example output**: `"Hello World!"` becomes `"hello-world"`
 
 **`php_fpm_exporter_scrape_url(hostname, pools)`** - Generate PHP-FPM exporter URLs
+
 - **Purpose**: Creates scrape URLs for PHP-FPM metrics collection
-- **Parameters**: 
+- **Parameters**:
   - `hostname` - Server hostname
   - `pools` - Array of PHP-FPM pools with port information
 - **Implementation**: Formats TCP URLs for each pool
 - **Example output**: `"tcp://localhost:9001/status,tcp://localhost:9002/status"`
 
 **`publishable_services(services)`** - Get publishable service names
+
 - **Purpose**: Identifies services marked for publishing to registries
 - **Parameters**: `services` - Service configuration array
 - **Implementation**: Filters services with `publish: true`
 - **Example output**: `"console nginx php-fpm"`
 
 **`replace(haystack, needle, replacement)`** - String replacement
+
 - **Purpose**: Simple string replacement function
-- **Parameters**: 
+- **Parameters**:
   - `haystack` - String to search in
   - `needle` - String to find
   - `replacement` - String to replace with
 - **Example output**: String with replacements applied
 
 **`template_key_value(template, key_value)`** - Template key-value pairs
+
 - **Purpose**: Applies key-value pairs to template string
-- **Parameters**: 
+- **Parameters**:
   - `template` - Template string with `{{key}}` placeholders
   - `key_value` - Array of key-value pairs
 - **Implementation**: Replaces `{{key}}` with corresponding values
 - **Example output**: Templated strings with values substituted
 
 **`version_compare(version1, version2, operator)`** - Compare version strings
+
 - **Purpose**: Compares semantic version strings
-- **Parameters**: 
+- **Parameters**:
   - `version1`, `version2` - Version strings to compare
   - `operator` - Comparison operator (>, <, >=, <=, ==, !=)
 - **Implementation**: Normalizes versions and uses PHP's version_compare
 - **Example output**: `true` or `false` based on comparison
 
 **`bool(value)`** - Convert to boolean
+
 - **Purpose**: Converts various string representations to boolean
 - **Parameters**: `value` - String or boolean value
 - **Implementation**: Handles 'yes'/'no', 'true'/'false' strings
 - **Example output**: `true` for 'yes'/'true', `false` for 'no'/'false'
 
 **`boolToString(value)`** - Convert boolean to string
+
 - **Purpose**: Converts boolean values to yes/no strings
 - **Parameters**: `value` - Boolean value
 - **Implementation**: Maps true→'yes', false→'no'
 - **Example output**: `"yes"` or `"no"`
 
-### File: `harness-drupal8/harness/config/external-images.yml`
+### File: `harness-drupal8/harness/config/external-images.yml` (Reference)
 
 #### External Image Functions
 
 **`external_images(services)`** - Extract external image list
+
 - **Purpose**: Analyzes services to identify all external images needed
-- **Parameters**: `services` - Output from docker_service_images function
-- **Implementation**: 
+
+- **Implementation**:
   - Collects upstream images from build contexts
   - Includes direct image references
   - Excludes locally built images and 'scratch'
   - Returns JSON-encoded array for command compatibility
-- **Example output**: 
+- **Example output**:
+
   ```json
-  [
-    {"image": "mysql:8.0", "platform": null},
-    {"image": "redis:6-alpine", "platform": "linux/amd64"}
-  ]
+  {"example": true}
   ```
 
 ---
@@ -703,5 +739,3 @@ ws app deploy staging
 # Validate Helm templates
 ws helm kubeval staging
 ```
-
-This comprehensive documentation covers all commands and functions available in the harness-drupal8 harness, providing developers with complete reference material for Drupal application development, deployment, and management.

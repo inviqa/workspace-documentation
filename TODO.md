@@ -1,4 +1,9 @@
-# TODO - Workspace Documentation Project
+# TODO
+
+<!-- QUICK-INDEX -->
+**Quick Index**: [Navigation Automation](#navigation-automation) · [Quality](#quality)
+· [Optional Enhancements](#optional-enhancements) · [Deferred](#deferred)
+<!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
@@ -278,3 +283,4 @@ Documentation project.
 
 **Note**: This TODO list should be regularly reviewed and updated as the
 project evolves and user needs become clearer.
+

@@ -1,11 +1,32 @@
 # Workspace Harness Documentation
 
+<!-- TOC -->
+## Table of Contents
+
+- [Overview](#overview)
+- [What is a Workspace Harness?](#what-is-a-workspace-harness)
+- [Harness Structure](#harness-structure)
+- [Parent and Child Harnesses](#parent-and-child-harnesses)
+- [How Harnesses are Built and Deployed](#how-harnesses-are-built-and-deployed)
+- [Creating a New Project with a Harness](#creating-a-new-project-with-a-harness)
+- [Customizing a Harness](#customizing-a-harness)
+- [File Materialisation (confd.yml)](#file-materialisation-confdyml)
+- [Defining Commands](#defining-commands)
+- [Workspace Tools](#workspace-tools)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [References](#references)
+- [Documentation Canonical Sources](#documentation-canonical-sources)
+- [Related Deep Dives](#related-deep-dives)
+- [Deprecation Guidelines (Summary)](#deprecation-guidelines-summary)
+
+<!-- /TOC -->
+# Workspace Harness Documentation
+
 > ⚠️ **WORK IN PROGRESS**: This documentation set is being actively
 > refactored toward a canonical-source model. Sections, filenames, and
 > anchors may change. Please report broken links instead of copying or
 > recreating content.
-
-> ⚠️ **WORK IN PROGRESS**: This documentation set is being actively refactored toward a canonical-source model. Sections, filenames, and anchors may change. Please report broken links instead of copying or recreating content.
 
 ## Overview
 
@@ -240,4 +261,3 @@ Full rationale, contract definition, and versioning detail: see
 Backwards Compatibility Contract, Deprecation Policy).
 
 ---
-

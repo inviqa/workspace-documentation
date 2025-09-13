@@ -1,5 +1,25 @@
 # Harness File Materialisation with `confd.yml`
 
+<!-- TOC -->
+## Table of Contents
+
+- [## Overview](#overview)
+- [## Purpose](#purpose)
+- [## Location & Lifecycle](#location-lifecycle)
+- [## Syntax Structure](#syntax-structure)
+- [## Practical Examples](#practical-examples)
+- [## Ordering Rules & Strategy](#ordering-rules-strategy)
+- [## Best Practices](#best-practices)
+- [## Troubleshooting](#troubleshooting)
+- [## Extending](#extending)
+- [## FAQ](#faq)
+- [## Deep Dive: Layering & Ephemeral Realisation](#deep-dive-layering-ephemeral-realisation)
+- [## Referencing in Other Docs](#referencing-in-other-docs)
+- [## Change Log](#change-log)
+
+<!-- /TOC -->
+
+
 See also:
 
 - **[Workspace Commands Index](workspace-commands-functions-index.md)** for a full list of core and harness commands.
@@ -170,6 +190,7 @@ confd('harness:/'):
 
 
 ```yaml
+# - { src: docker/image/legacy/Dockerfile }
 # - { src: docker/image/legacy/Dockerfile }
 ```
 Temporarily disables generation without deleting history.

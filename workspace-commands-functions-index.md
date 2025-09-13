@@ -91,7 +91,6 @@ ws global service proxy restart
 
 Implementation details: see `implementation-references.md` (Proxy Service) for
 script path and lifecycle.
- 
 
 #### Configuration Management
 

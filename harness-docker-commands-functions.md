@@ -1,5 +1,10 @@
 # Harness Docker Commands and Functions
 
+<!-- QUICK-INDEX -->
+**Quick Index**: [Introduction](#introduction) · [Commands](#commands) · [Functions](#functions)
+· [Usage Examples](#usage-examples)
+<!-- /QUICK-INDEX -->
+
 <!-- TOC -->
 ## Table of Contents
 

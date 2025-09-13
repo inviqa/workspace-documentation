@@ -1,5 +1,33 @@
 # Harness Symfony - Commands and Functions Documentation
 
+<!-- QUICK-INDEX -->
+**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: `harness-symfony/harness/config/commands.yml`](#file-harness-symfonyharnessconfigcommandsyml)
+    - [Environment Management](#environment-management)
+    - [Networking](#networking)
+    - [Container Access and Ops](#container-access-and-ops)
+    - [Development Tools](#development-tools)
+    - [Asset Management](#asset-management)
+    - [Frontend](#frontend)
+    - [Service Utilities](#service-utilities)
+    - [Configuration Management](#configuration-management)
+    - [Feature Toggles](#feature-toggles)
+    - [DB Utilities](#db-utilities)
+    - [Harness Updates](#harness-updates)
+    - [Misc](#misc)
+  - [File: `harness-symfony/harness/config/pipeline.yml`](#file-harness-symfonyharnessconfigpipelineyml)
+  - [File: `harness-symfony/harness/config/external-images.yml`](#file-harness-symfonyharnessconfigexternal-imagesyml)
+- [Functions](#functions)
+  - [File: `harness-symfony/harness/config/functions.yml`](#file-harness-symfonyharnessconfigfunctionsyml)
+<!-- /TOC -->
+
 This document covers all commands and functions available in the Symfony harness.
 
 ## Overview

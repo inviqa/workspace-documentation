@@ -1,5 +1,33 @@
 # Harness Magento 1 - Commands and Functions Documentation
 
+<!-- QUICK-INDEX -->
+**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: `harness-magento1/harness/config/commands.yml`](#file-harness-magento1harnessconfigcommandsyml)
+    - [Environment Lifecycle](#environment-lifecycle)
+    - [Network Management](#network-management)
+    - [Container Access](#container-access)
+    - [Composer](#composer)
+    - [Database](#database)
+    - [Frontend](#frontend)
+    - [Ports](#ports)
+    - [PHP-FPM](#php-fpm)
+    - [Configuration Management](#configuration-management)
+    - [Feature Toggles](#feature-toggles)
+    - [Docker Sync](#docker-sync)
+    - [Harness Updates](#harness-updates)
+  - [File: `harness-magento1/harness/config/external-images.yml`](#file-harness-magento1harnessconfigexternal-imagesyml)
+  - [File: `harness-magento1/harness/config/pipeline.yml`](#file-harness-magento1harnessconfigpipelineyml)
+- [Functions](#functions)
+  - [File: `harness-magento1/harness/config/functions.yml`](#file-harness-magento1harnessconfigfunctionsyml)
+<!-- /TOC -->
+
 This document covers all commands and functions available in the Magento 1 harness.
 
 ## Overview
@@ -236,9 +264,11 @@ external-images helpers.
 
 **`ws app build`**
 
-- **Description:** Build all service images (console, php-fpm, nginx; optional cron, jenkins-runner)
+- **Description:** Build all service images (console, php-fpm, nginx; optional
+  cron, jenkins-runner)
 - **Usage:** `ws app build` or `ws app build <service>`
 - **Example output:**
+
   ```text
   Pulling external images...
   Building console...
@@ -251,6 +281,7 @@ external-images helpers.
 - **Description:** Push images to registry
 - **Usage:** `ws app publish`
 - **Example output:**
+
   ```text
   Pushing registry.example.com/project/php-fpm:abcd123
   Pushed.
@@ -261,6 +292,7 @@ external-images helpers.
 - **Description:** Publish Helm chart to Git
 - **Usage:** `ws app publish chart v1.2.3 "Release message"`
 - **Example output:**
+
   ```text
   Cloning chart repository...
   Syncing Helm templates...
@@ -273,6 +305,7 @@ external-images helpers.
 - **Description:** Helm upgrade/install with kubeconfig
 - **Usage:** `ws app deploy staging`
 - **Example output:**
+
   ```text
   Connecting to cluster...
   Building Helm dependencies...
@@ -291,6 +324,7 @@ external-images helpers.
 - **Description:** Validate templates (installs plugin)
 - **Usage:** `ws helm kubeval charts/mychart`
 - **Example output:**
+
   ```text
   PASS - Deployment is valid
   PASS - Service is valid
@@ -304,6 +338,7 @@ external-images helpers.
 - **Description:** JSON list of needed external images (excludes produced and scratch)
 - **Usage:** Used by external image commands below
 - **Example output:**
+
   ```json
   [
     {"image": "mysql:8.0", "platform": null},
@@ -316,6 +351,7 @@ external-images helpers.
 - **Description:** Emit docker-compose for pulling
 - **Usage:** `ws external-images config --skip-exists`
 - **Example output:**
+
   ```yaml
   version: '3'
   services:
@@ -330,6 +366,7 @@ external-images helpers.
 - **Description:** Pull using generated compose
 - **Usage:** `ws external-images pull redis`
 - **Example output:**
+
   ```text
   Pulling mysql_8_0...
   Pulling redis_6_alpine...
@@ -341,6 +378,7 @@ external-images helpers.
 - **Description:** List required or locally present images
 - **Usage:** `ws external-images ls --all`
 - **Example output:**
+
   ```text
   mysql:8.0
   redis:6-alpine
@@ -352,6 +390,7 @@ external-images helpers.
 - **Description:** Remove external images
 - **Usage:** `ws external-images rm --force`
 - **Example output:**
+
   ```text
   Untagged: mysql:8.0
   Untagged: redis:6-alpine
@@ -458,6 +497,7 @@ external-images helpers.
   - `hostname` - The hostname to connect to
   - `pools` - Array of pool configurations with port information
 - **Usage:**
+
   ```yaml
   attribute('php_fpm_scrape_urls'): = php_fpm_exporter_scrape_url(
     'php-fpm',

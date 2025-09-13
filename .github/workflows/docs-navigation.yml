@@ -1,0 +1,47 @@
+---
+name: Docs Navigation Validation
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - 'workspace-documentation/tools/*.sh'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - 'workspace-documentation/tools/*.sh'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python (for markdownlint-cli2 if needed)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install markdownlint-cli2
+        run: |
+          npm install -g markdownlint-cli2 \
+            || echo "Skipping markdownlint-cli2 install"
+
+      - name: Run markdownlint (ignore failures if tool missing)
+        run: |
+          if command -v markdownlint-cli2 >/dev/null 2>&1; then
+            markdownlint-cli2 "**/*.md" || exit 1
+          else
+            echo "markdownlint-cli2 not installed; skipping"
+          fi
+
+      - name: Ensure scripts executable
+        run: chmod +x workspace-documentation/tools/*.sh || true
+
+      - name: Check TOCs
+        run: workspace-documentation/tools/generate-toc.sh --check
+
+      - name: Validate anchors
+        run: workspace-documentation/tools/check-anchors.sh

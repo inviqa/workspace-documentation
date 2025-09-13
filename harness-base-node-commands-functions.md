@@ -1,37 +1,41 @@
 
-# Harness Base Node - Commands and Functions Documentation
+# Harness Base Node Commands and Functions
 
-This document provides a comprehensive reference for all commands and functions available in the `harness-base-node` harness.
+<!-- QUICK-INDEX -->
+## Quick Index
 
----
+- [Overview](#overview)
+- [Commands](#commands)
+  - [Command Source File](#file-harness-base-nodesrc_baseharnessconfigcommandsyml)
+- [Functions](#functions)
+  - [Function Source File](#file-harness-base-nodesrc_baseharnessconfigfunctionsyml)
+- [Examples](#examples)
 
-## Commands
+<!-- /QUICK-INDEX -->
 
-### Environment Management
+<!-- TOC -->
+## Table of Contents
 
+- [Introduction](#introduction)
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: harness-base-node/src/_base/harness/config/commands.yml](#file-harness-base-nodesrc_baseharnessconfigcommandsyml)
+- [Functions](#functions)
+  - [File: harness-base-node/src/_base/harness/config/functions.yml](#file-harness-base-nodesrc_baseharnessconfigfunctionsyml)
+- [Examples](#examples)
 
-#### `ws enable`
+<!-- /TOC -->
 
-Enable and start the workspace.
+## Introduction
 
-**Usage:**
-
-```bash
-ws enable
-```
-
-**Example output:**
-
-# Harness Base Node - Commands and Functions Documentation
-
-This document covers all commands and functions available in the Base Node harness.
+This document provides a comprehensive reference for all commands and
+functions available in the `harness-base-node` harness.
 
 ## Overview
 
-The Base Node harness provides a Docker-based Node.js development environment with workspace management, network, container, and configuration tooling.
-
----
-
+The Base Node harness provides a Docker-based Node.js development
+environment with workspace management, network, container, and configuration
+tooling.
 
 ## Commands
 
@@ -50,7 +54,8 @@ The Base Node harness provides a Docker-based Node.js development environment wi
 
 ### File: `harness-base-node/src/_base/harness/config/functions.yml`
 
-- YAML: `to_yaml(data)`, `to_nice_yaml(data, indentation, nesting)`, `deep_merge_to_yaml(arrays, indentation, nesting)` (DEPRECATED)
+- YAML: `to_yaml(data)`, `to_nice_yaml(data, indentation, nesting)`,
+  `deep_merge_to_yaml(arrays, indentation, nesting)` (DEPRECATED)
 - Arrays: `deep_merge(arrays)`
 - Service management: `publishable_services(services)`, `filter_local_services(services)`
 - Docker: `docker_service_images()`
@@ -65,6 +70,7 @@ The Base Node harness provides a Docker-based Node.js development environment wi
 $ ws yarn install
 Yarn install/build output, dependencies installed
 ```
+
 
 ### Enable the workspace
 

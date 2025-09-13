@@ -1,5 +1,27 @@
 # Local Harness Pattern (Minimal Harness for `confd` Rendering)
 
+<!-- TOC -->
+## Table of Contents
+
+- [Motivation](#motivation)
+- [When to Use (and When Not To)](#when-to-use-and-when-not-to)
+- [Directory Layout](#directory-layout)
+- [Defining the Local Harness in `workspace.yml`](#defining-the-local-harness-in-workspaceyml)
+- [Minimal `confd.yml`](#minimal-confdyml)
+- [Template Examples](#template-examples)
+- [Running the Render Pipeline](#running-the-render-pipeline)
+- [How It Works Internally](#how-it-works-internally)
+- [Version Control Guidance](#version-control-guidance)
+- [Limitations](#limitations)
+- [Migration to a Full Harness Later](#migration-to-a-full-harness-later)
+- [Upgrading to a Complete In-Repo Harness (Using `.my127ws/` Structure)](#upgrading-to-a-complete-in-repo-harness-using-my127ws-structure)
+- [Comparison with Custom Command Approach](#comparison-with-custom-command-approach)
+- [Future Direction (Potential Enhancement)](#future-direction-potential-enhancement)
+- [Quick Start Checklist](#quick-start-checklist)
+
+<!-- /TOC -->
+# Local Harness Pattern (Minimal Harness for `confd` Rendering)
+
 > Status: Experimental usage pattern. This document describes how to leverage
 > the existing harness lifecycle to render templates into a project **without**
 > depending on a published upstream harness. It is a pragmatic workaround until
@@ -83,7 +105,6 @@ Note:
      `dst: harness:/path/to/file` overrides for those few cases, or
   2. Introduce an additional `confd('harness:/'):` block for clearer grouping
      when there are many harness-internal outputs.
-
 
 ### Why `workspace:/` Prefix?
 
@@ -497,3 +518,4 @@ confd paths. Until then, this pattern is the simplest supported approach.
 - [Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)
 - [Workspace Commands & Functions Index](workspace-commands-functions-index.md)
 - [Building a Reusable Harness](building-a-harness.md)
+

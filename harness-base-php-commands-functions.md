@@ -1,11 +1,38 @@
 
-# Harness Base PHP - Commands and Functions Documentation
+# Harness Base PHP Commands and Functions
 
-This document covers all commands and functions available in the Base PHP harness.
+<!-- QUICK-INDEX -->
+## Quick Index
+
+- [Overview](#overview)
+- [Commands](#commands)
+- [Functions](#functions)
+- [Examples](#examples)
+
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: harness-base-php/src/_base/harness/config/commands-php.yml](#file-harness-base-phpsrc_baseharnessconfigcommands-phpyml)
+- [Functions](#functions)
+  - [File: harness-base-php/src/_base/harness/config/functions-php.yml](#file-harness-base-phpsrc_baseharnessconfigfunctions-phpyml)
+- [Examples](#examples)
+
+<!-- /TOC -->
+
+## Introduction
+
+This document covers all commands and functions available in the Base PHP
+harness.
 
 ## Overview
 
-The Base PHP harness provides a Docker-based PHP development environment with frontend tooling, composer, PHP-FPM, and extension management.
+The Base PHP harness provides a Docker-based PHP development environment
+with frontend tooling, composer, PHP-FPM, and extension management.
 
 ---
 
@@ -28,7 +55,8 @@ The Base PHP harness provides a Docker-based PHP development environment with fr
 
 ### File: `harness-base-php/src/_base/harness/config/functions-php.yml`
 
-- `php_fpm_exporter_scrape_url(hostname, pools)` — Generate scrape URLs for PHP-FPM status monitoring
+- `php_fpm_exporter_scrape_url(hostname, pools)` — Generate scrape URLs for
+  PHP-FPM status monitoring
 
 ---
 
@@ -37,14 +65,14 @@ The Base PHP harness provides a Docker-based PHP development environment with fr
 ### Build frontend assets and install composer dependencies
 
 ```bash
-$ ws composer install
-$ ws frontend build
+ws composer install
+ws frontend build
 ```
 
 ### Enable Blackfire for PHP-FPM
 
 ```bash
-$ ws feature blackfire on
+ws feature blackfire on
 ```
 
 ### Configuring PHP Extensions
@@ -81,4 +109,4 @@ This harness extends the base functionality and works with:
 - Base container management commands
 - Docker Compose integration
 - Workspace attribute system
- - Environment variable interpolation
+- Environment variable interpolation

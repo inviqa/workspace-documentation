@@ -1,6 +1,42 @@
 # Harness Node Commands and Functions
 
-This document lists all commands and functions provided by the `harness-node` harness.
+<!-- QUICK-INDEX -->
+## Quick Index
+
+- [Workspace Management](#workspace-management)
+- [Network Management](#network-management)
+- [Node.js Development](#nodejs-development)
+- [Container Management](#container-management)
+- [Configuration Management](#configuration-management)
+- [Functions](#functions)
+  - [YAML](#yaml-processing-functions)
+  - [Arrays](#array-processing-functions)
+  - [Service Management](#service-management-functions)
+
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Commands](#commands)
+  - [Workspace Management](#workspace-management)
+  - [Network Management](#network-management)
+  - [Node.js Development](#nodejs-development)
+  - [Container Management](#container-management)
+  - [Configuration Management](#configuration-management)
+- [Functions](#functions)
+  - [File: harness-node/harness/config/functions.yml](#file-harness-nodeharnessconfigfunctionsyml)
+  - [YAML Processing Functions](#yaml-processing-functions)
+  - [Array Processing Functions](#array-processing-functions)
+  - [Service Management Functions](#service-management-functions)
+
+<!-- /TOC -->
+
+## Introduction
+
+This document lists all commands and functions provided by the
+`harness-node` harness.
 
 ## Commands
 

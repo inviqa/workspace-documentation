@@ -1,5 +1,26 @@
 # Harness WordPress - Commands and Functions Documentation
 
+<!-- QUICK-INDEX -->
+**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+· [Examples](#examples)
+<!-- /QUICK-INDEX -->
+
+<!-- TOC -->
+## Table of Contents
+
+- [Overview](#overview)
+- [Commands](#commands)
+  - [File: `harness-wordpress/harness/config/commands.yml`](#file-harness-wordpressharnessconfigcommandsyml)
+  - [File: `harness-wordpress/harness/config/pipeline.yml`](#file-harness-wordpressharnessconfigpipelineyml)
+  - [File: `harness-wordpress/harness/config/external-images.yml`](#file-harness-wordpressharnessconfigexternal-imagesyml)
+- [Functions](#functions)
+  - [File: `harness-wordpress/harness/config/functions.yml`](#file-harness-wordpressharnessconfigfunctionsyml)
+- [Examples](#examples)
+  - [List required external images](#list-required-external-images)
+  - [Toggle Tideways extension](#toggle-tideways-extension)
+  - [Import a database dump](#import-a-database-dump)
+<!-- /TOC -->
+
 This document covers all commands and functions available in the WordPress
 harness.
 

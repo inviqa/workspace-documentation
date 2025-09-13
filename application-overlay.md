@@ -16,7 +16,8 @@
 - [Anti-Patterns](#anti-patterns)
 - [Provenance / Drift Detection (Optional Enhancements)](#provenance--drift-detection-optional-enhancements)
 - [Quick Reference](#quick-reference)
-- [Author Checklist](#checklist-author-perspective)
+- [Checklist (Author Perspective)](#checklist-author-perspective)
+- [12. See Also](#12-see-also)
 
 <!-- /TOC -->
 
@@ -94,9 +95,9 @@ Provide an explicit command to re-apply overlays:
 
 ```yaml
 command('overlay apply'):
-  exec: |
-    #!bash(workspace:/)
-    docker-compose exec -T -u build console app overlay:apply
+   exec: |
+      #!bash(workspace:/)
+      docker-compose exec -T -u build console app overlay:apply
 ```
 
 Inside the container a script (example pattern):
@@ -184,3 +185,5 @@ Potential future improvements:
 ---
 *Evolve this document as overlay patterns mature; consolidate variants rather
 than forking.*
+
+<!-- /TOC -->

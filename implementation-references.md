@@ -1,5 +1,18 @@
 # Implementation References
 
+<!-- TOC -->
+## Table of Contents
+
+- [Conventions](#conventions)
+- [Proxy Service (`ws global service proxy <enable|disable|restart>`)](#proxy-service-ws-global-service-proxy-enabledisablerestart)
+- [Confd Processing](#confd-processing)
+- [Overlay Directory](#overlay-directory)
+- [Events (Selected)](#events-selected)
+- [Adding New Command References](#adding-new-command-references)
+
+<!-- /TOC -->
+# Implementation References
+
 Purpose: Quick map from user-facing `ws` commands and documented features to
 their underlying source files for faster maintenance and onboarding.
 
