@@ -8,20 +8,20 @@ default set of harnesses.
 
 | Term | Meaning |
 |------|---------|
-| Harness Package | Versioned set of harness templates + config (e.g. `inviqa/php`, `my127/empty`). |
-| Repository Source | JSON index URL defining harness packages + versions. |
-| Registered Package | Harness whose metadata is loaded into the in‑memory package map. |
-| Local / Fake Harness | Developer-created harness folder not published in a repository. |
+| Harness Package | Versioned harness set (e.g. `inviqa/php`, `my127/empty`) |
+| Repository Source | JSON index listing packages + versions |
+| Registered Package | Metadata loaded into in-memory map |
+| Local / Fake Harness | Repo harness dir not published to shared repo |
 
 ## 2. Core Classes Involved
 
 | File | Role |
 |------|------|
-| `workspace/src/Types/Harness/Repository/PackageRepository.php` | Maintains in‑memory map of harness packages and resolves versions. |
-| `workspace/src/Types/Harness/Repository/Source/Builder.php` | Adds declared repository sources to the `PackageRepository`. |
-| `workspace/src/Types/Harness/Repository/Source/DefinitionFactory.php` | Parses DSL declarations (`harness.repository.source('name'): <url>`). |
-| `workspace/src/Types/Harness/Repository/Source/Definition.php` | Data object for a source. |
-| `workspace/src/Types/Workspace/Builder.php` | Registers harness CLI commands only if a harness is present. |
+| `.../Repository/PackageRepository.php` | In-memory map & version resolution |
+| `.../Repository/Source/Builder.php` | Adds source URLs to repository |
+| `.../Repository/Source/DefinitionFactory.php` | Parses source DSL defs |
+| `.../Repository/Source/Definition.php` | Source definition value object |
+| `.../Types/Workspace/Builder.php` | Registers commands when harness present |
 
 ## 3. Package Registration Flow
 
@@ -75,6 +75,80 @@ harness.repository.source('internal'): https://internal.example.com/harnesses.js
 
 Each declaration becomes a `Definition` whose URL is passed to
 `PackageRepository::addSource()`. JSON loads lazily on first resolution.
+
+### 6.1 Default Built-In Source (`my127`)
+
+Out of the box the Workspace tool seeds one repository source via the config
+file `workspace/config/harness/packages.yml` in the core distribution:
+
+```yaml
+harness.repository.source('my127'): https://my127.io/workspace/harnesses.json
+```
+
+That single line is the *only* built-in harness catalog reference. There is no
+hard‑coded fallback in PHP—remove or override it and the remote package list
+disappears until you add another source.
+
+Reference chain proving how it is used:
+
+1. **DSL Parse** – `Source/DefinitionFactory.php` stores the raw body as `url`.
+2. **Environment Build** – `Source/Builder.php` calls
+   `PackageRepository::addSource($definition->getUrl())`.
+3. **Lazy Import** – On first package resolution,
+   `PackageRepository::importPackagesFromSources()` loads each URL exactly
+   once.
+4. **JSON Fetch** – `JsonLoader::loadArray()` → `FileLoader::load()` →
+   `file_get_contents(…)` (no scheme filtering).
+
+If that URL is unreachable you will see a `CouldNotLoadSource` exception when
+resolving a harness.
+
+#### Overriding or Mirroring
+
+To point at an internal mirror (e.g., for air‑gapped environments):
+
+```yaml
+# Replace the default (order matters if both present)
+harness.repository.source('my127'): https://mirror.internal/workspace/harnesses.json
+```
+
+Or add a second catalog under a different logical name:
+
+```yaml
+harness.repository.source('internal'): https://mirror.internal/internal-harnesses.json
+```
+
+Resolution merges catalogs; duplicate package names aggregate their versions.
+
+#### Verifying at Runtime
+
+You can force early loading and verify connectivity:
+
+```fish
+# Trigger resolution (lists error if missing/unreachable)
+ws harness prepare 2>&1 | grep -i "Could not load from source" || echo "Source reachable"
+
+# Manually inspect first few bytes of the catalog
+curl -I https://my127.io/workspace/harnesses.json | head -n 5
+curl -s https://my127.io/workspace/harnesses.json | head
+```
+
+If using a local file mirror:
+
+```fish
+cp harnesses.json ./cache/harnesses.json
+harness.repository.source('my127'): ./cache/harnesses.json
+```
+
+#### Security & Reliability Notes
+
+- Treat the catalog as *untrusted input*—only dist URLs you trust should be
+  used in production.
+- Consider pinning explicit versions (`vendor/harness:vX.Y.Z`) in long‑lived
+  projects to avoid silent upgrades.
+- For disaster recovery, cache the JSON and referenced archive artifacts.
+- A future enhancement could add checksum fields to each dist entry for
+  integrity verification.
 
 ### Multiple Sources
 
