@@ -156,12 +156,21 @@ Merged in declaration order. Later sources may add packages or new versions.
 
 ## 7. Local / “Fake” Harness Strategies
 
-| Strategy | Pros | Cons |
-|----------|------|------|
-| Use existing `my127/empty` | Zero setup | Different name |
-| Publish JSON index | Scales; proper namespace | Requires hosting |
-| `path` dist entry | Simple local dev | Manual JSON authoring |
-| Custom render script | Full control | Outside official flow |
+Use existing `my127/empty`  
+: Zero setup.  
+− Different name.
+
+Publish JSON index  
+: Scales; proper namespace.  
+− Requires hosting.
+
+`path` dist entry  
+: Simple local dev.  
+− Manual JSON authoring.
+
+Custom render script  
+: Full control.  
+− Outside official flow.
 
 ### Minimal JSON for a Local Harness
 
@@ -189,19 +198,31 @@ if unsupported.
 
 ## 8. Dist Types
 
-| Type | Meaning | Handling |
-|------|---------|----------|
-| `tar` / `zip` | Remote archive | Download → extract |
-| `path` | Local directory | Symlink / copy |
+`tar` / `zip`  
+: Remote archive.  
+→ Download then extract.
+
+`path`  
+: Local directory.  
+→ Symlink or copy.
 
 ## 9. Diagnosing “Package Not Registered” Errors
 
-| Symptom | Likely Cause | Fix |
-|---------|--------------|-----|
-| Long package list, yours absent | Typo in name | Correct `use:` value |
-| Only a few packages listed | Missing sources | Add declarations |
-| Custom package missing | JSON not reachable | Verify URL/path |
-| Command absent | No `harness:` block | Add stanza |
+Long package list, yours absent  
+→ Typo in name.  
+Fix: Correct `harness.use` value.
+
+Only a few packages listed  
+→ Missing sources.  
+Fix: Add source declarations.
+
+Custom package missing  
+→ JSON not reachable.  
+Fix: Verify URL / path access.
+
+Command absent  
+→ No `harness:` block.  
+Fix: Add harness stanza.
 
 ## 10. Frequently Asked Questions
 
@@ -222,12 +243,17 @@ Use `my127/empty` or replicate `Confd::apply()` logic.
 
 ## 12. Quick Checklist
 
-| Goal | Step |
-|------|------|
-| Add internal harness | Publish JSON → declare source |
-| Local dev harness | JSON with `dist.type=path` |
-| Just test commands | `harness.use: my127/empty` |
-| Debug failure | Run command → read *UnknownPackage* list |
+Add internal harness  
+→ Publish JSON and declare a source.
+
+Local dev harness  
+→ JSON with `dist.type=path`.
+
+Just test commands  
+→ `harness.use: my127/empty`.
+
+Debug failure  
+→ Run command; read *UnknownPackage* list.
 
 ---
 *Document clarifying harness registration and repository extensibility.*
