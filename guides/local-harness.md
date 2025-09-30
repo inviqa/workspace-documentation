@@ -79,6 +79,19 @@ workspace('my-app'):
 Key points:
 
 - `harnessLayers:` accepts one or more local directories. Even with a single layer,
+  The two helper commands are required for the override to behave like the
+  stock installer:
+
+  - `install local trigger-event` keeps the standard `before/after` install
+    hooks intact so any listeners still run even though the harness is not
+    downloaded from an index.
+  - `install local list-layers` queries Workspace for every configured entry in
+    `harnessLayers`, ensuring all directories are copied into `.my127ws/` in
+    the expected order (add a new layer to `workspace.yml` and it is picked up
+    automatically).
+
+  Do not remove these helpers unless Workspace gains native support for
+  path-based installs without them.
   using the list form keeps future layering obvious. (Workspace still supports the
   legacy `harness:` shorthand if you encounter it.)
 - Each layer `path` points to a directory treated as a harness source (no vendor
@@ -195,6 +208,17 @@ overriding two commands:
 Create `workspace/config/install.local.yml` (or a similar file under
 `workspace/config/`) with the following definitions:
 
+> ⚠️ **Importer required:** Workspace reads only the root `workspace.yml`
+> by default. Add an import statement so your local command overrides load:
+>
+> ```yaml
+> import('workspace-local'): workspace/config/*.yml
+> ```
+>
+> Place it at the top of `workspace.yml` (before `workspace('…')`). Without
+> this line Workspace will ignore the files under `workspace/config/` and the
+> `ws install local` and `ws harness prepare local` commands will not exist.
+
 > **Overlay attribute heads-up:** Workspace reads `overlay:` from
 > `workspace.yml` so it can apply the directory during the standard install
 > step, but it does **not** publish that value into the attribute collection.
@@ -209,27 +233,19 @@ render order—add a new entry to `harnessLayers` and it will be copied without
 further adjustments.
 
 ```yaml
-command('install [--skip-events]'):
+command('install local [--skip-events]', 'install local'):
   description: Realise local harness without remote repositories
   env:
-    INSTALL_DIR: '.my127ws'
-    OVERLAY_DIR: './tools/workspace-overlay'
+    INSTALL_DIR: .my127ws
+    OVERLAY_DIR: ./tools/workspace-overlay
     SKIP_EVENTS: "= input.option('skip-events') ? 1 : 0"
   exec: |
     #!bash(workspace:/)|@
     set -euo pipefail
 
     trigger_event() {
-      MY127_EVENT="$1" php <<'PHP'
-<?php
-require __DIR__ . '/vendor/autoload.php';
-workspace()->trigger(getenv('MY127_EVENT'));
-PHP
+      ws install local trigger-event "$1"
     }
-
-    if [ ${SKIP_EVENTS} -eq 0 ]; then
-      trigger_event before.harness.install
-    fi
 
     HARNESS_DIRS=()
     while IFS= read -r layer_path || [ -n "$layer_path" ]; do
@@ -241,6 +257,10 @@ PHP
       exit 1
     fi
 
+    if [ ${SKIP_EVENTS} -eq 0 ]; then
+      trigger_event before.harness.install
+    fi
+
     if [ -d "${INSTALL_DIR}" ]; then
       rm -rf "${INSTALL_DIR}"
     fi
@@ -248,7 +268,7 @@ PHP
 
     for layer_dir in "${HARNESS_DIRS[@]}"; do
       if [ ! -d "${layer_dir}" ]; then
-        echo "Expected harness layer directory '${layer_dir}' not found."
+        echo "Expected harness layer directory '${layer_dir}' not found." >&2
         exit 1
       fi
       echo "Syncing ${layer_dir} → ${INSTALL_DIR}"
@@ -267,6 +287,55 @@ PHP
     echo "Harness files staged in ${INSTALL_DIR}."
     echo "Run 'ws harness prepare local' next."
 
+command('harness prepare local [--skip-events]', 'harness prepare local'):
+  description: Render local harness templates via confd
+  env:
+    SKIP_EVENTS: "= input.option('skip-events') ? 1 : 0"
+  exec: |
+    #!php(workspace:/)
+    $skipOption = $input->getOption('skip-events');
+    $triggerEvents = !(
+      $skipOption instanceof \my127\Console\Usage\Model\BooleanOptionValue
+      && $skipOption->value()
+    );
+
+    if ($triggerEvents) {
+      $ws->trigger('before.harness.prepare');
+    }
+
+    $paths = [];
+
+    if (
+      isset($harness)
+      && is_object($harness)
+      && method_exists($harness, 'getRequiredConfdPaths')
+    ) {
+      $paths = $harness->getRequiredConfdPaths();
+    }
+
+    foreach ($paths as $path) {
+      $ws->confd($path)->apply();
+    }
+
+    if ($triggerEvents) {
+      $ws->trigger('after.harness.prepare');
+    }
+
+    if (empty($paths)) {
+      echo "No confd paths defined; nothing to render.";
+      return;
+    }
+
+    echo "Rendered harness templates.";
+
+command('install local trigger-event %', 'install local trigger-event'):
+  description: Internal helper to emit workspace events for local install
+  env:
+    EVENT_NAME: "= input.argument('%')"
+  exec: |
+    #!php(workspace:/)
+    $ws->trigger($env['EVENT_NAME']);
+
 command('install local list-layers'):
   description: Internal helper to list configured harness layer paths
   exec: |
@@ -276,30 +345,6 @@ command('install local list-layers'):
       if (!empty($layer['path'])) {
         echo rtrim($layer['path']) . "\n";
       }
-    }
-
-command('harness prepare [--skip-events]'):
-  description: Render local harness templates via confd
-  exec: |
-    #!php(workspace:/)|@
-    $booleanOption = \my127\Console\Usage\Model\BooleanOptionValue::class;
-
-    $skipOption = $input->getOption('skip-events');
-    $triggerEvents = !(
-        $skipOption instanceof $booleanOption
-        && $skipOption->value()
-    );
-
-    if ($triggerEvents) {
-        $ws->trigger('before.harness.prepare');
-    }
-
-    foreach ($harness->getRequiredConfdPaths() as $path) {
-        $ws->confd($path)->apply();
-    }
-
-    if ($triggerEvents) {
-        $ws->trigger('after.harness.prepare');
     }
 ```
 
