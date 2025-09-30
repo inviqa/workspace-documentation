@@ -11,6 +11,7 @@
 - [Template Examples](#template-examples)
 - [Running the Render Pipeline](#running-the-render-pipeline)
 - [How It Works Internally](#how-it-works-internally)
+- [Local Realisation Workflow (No Index Required)](#local-realisation-workflow-no-index-required)
 - [Version Control Guidance](#version-control-guidance)
 - [Limitations](#limitations)
 - [Migration to a Full Harness Later](#migration-to-a-full-harness-later)
@@ -20,8 +21,6 @@
 - [Quick Start Checklist](#quick-start-checklist)
 
 <!-- /TOC -->
-# Local Harness Pattern (Minimal Harness for `confd` Rendering)
-
 > Status: Experimental usage pattern. This document describes how to leverage
 > the existing harness lifecycle to render templates into a project **without**
 > depending on a published upstream harness. It is a pragmatic workaround until
@@ -177,6 +176,99 @@ Resulting files in project root after first run:
 1. `getRequiredConfdPaths()` includes the harness root so `confd.yml` is parsed.
 
 1. `confd('workspace:/')` mappings render directly to the root.
+
+## Local Realisation Workflow (No Index Required)
+
+Workspace normally downloads harness packages from a JSON index. When the
+entire harness lives inside your repository you can bypass the index by
+overriding two commands:
+
+1. `ws install` – copy the local harness into `.my127ws/`, apply the optional
+   overlay, and trigger install events.
+2. `ws harness prepare` – run the same `confd` render phase the installer would
+   execute.
+
+Create `workspace/config/install.local.yml` (or a similar file under
+`workspace/config/`) with the following definitions:
+
+```yaml
+command('install [--skip-events]'):
+  description: Realise local harness without remote repositories
+  env:
+    HARNESS_DIR: 'local-harness'
+    INSTALL_DIR: '.my127ws'
+    OVERLAY_DIR: "= @('workspace.overlay') ?? ''"
+    SKIP_EVENTS: "= input.option('skip-events') ? 1 : 0"
+  exec: |
+    #!bash(workspace:/)|@
+    set -euo pipefail
+
+    trigger_event() {
+      MY127_EVENT="$1" php <<'PHP'
+<?php
+require __DIR__ . '/vendor/autoload.php';
+workspace()->trigger(getenv('MY127_EVENT'));
+PHP
+    }
+
+    if [ @{SKIP_EVENTS} -eq 0 ]; then
+      trigger_event before.harness.install
+    fi
+
+    if [ -d "@{INSTALL_DIR}" ]; then
+      rm -rf "@{INSTALL_DIR}"
+    fi
+    mkdir -p "@{INSTALL_DIR}"
+
+    echo "Copying @{HARNESS_DIR} → @{INSTALL_DIR}"
+    rsync -a "@{HARNESS_DIR}/" "@{INSTALL_DIR}/"
+
+    if [ -n "@{OVERLAY_DIR}" ] && [ -d "@{OVERLAY_DIR}" ]; then
+      echo "Applying overlay @{OVERLAY_DIR}"
+      rsync -a "@{OVERLAY_DIR}/" "@{INSTALL_DIR}/"
+    fi
+
+    if [ @{SKIP_EVENTS} -eq 0 ]; then
+      trigger_event after.harness.install
+    fi
+
+    echo "Harness files staged in @{INSTALL_DIR}; run 'ws harness prepare' next."
+
+command('harness prepare [--skip-events]'):
+  description: Render local harness templates via confd
+  exec: |
+    #!php(workspace:/)|@
+    $booleanOption = \my127\Console\Usage\Model\BooleanOptionValue::class;
+
+    $skipOption = $input->getOption('skip-events');
+    $triggerEvents = !(
+        $skipOption instanceof $booleanOption
+        && $skipOption->value()
+    );
+
+    if ($triggerEvents) {
+        $ws->trigger('before.harness.prepare');
+    }
+
+    foreach ($harness->getRequiredConfdPaths() as $path) {
+        $ws->confd($path)->apply();
+    }
+
+    if ($triggerEvents) {
+        $ws->trigger('after.harness.prepare');
+    }
+```
+
+With these overrides in place the workflow is:
+
+1. `ws install` – realises `.my127ws/` from the local harness and optional
+   overlay.
+1. `ws harness prepare` – renders Twig templates through `confd` (no index
+   lookup needed).
+
+The commands honour `--skip-events` to remain compatible with existing hooks.
+See [`harness-indexes.md`](harness-indexes.md) for background on indexes and
+when you still need them.
 
 ## Version Control Guidance
 
@@ -520,11 +612,8 @@ confd paths. Until then, this pattern is the simplest supported approach.
 5. Iterate using `ws harness prepare` after template edits.
   Rerun `ws install --step=prepare` if you want the full installer cascade.
 
----
-
-*See also:*
+### See also
 
 - [Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)
 - [Workspace Commands & Functions Index](workspace-commands-functions-index.md)
 - [Building a Reusable Harness](building-a-harness.md)
-
