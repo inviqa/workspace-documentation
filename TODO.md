@@ -1,19 +1,12 @@
-# TODO
-
 <!-- QUICK-INDEX -->
 **Quick Index**: [Navigation Automation](#navigation-automation) · [Quality](#quality)
 · [Optional Enhancements](#optional-enhancements) · [Deferred](#deferred)
-<!-- /QUICK-INDEX -->
-
 <!-- TOC -->
 ## Table of Contents
 
-- [Introduction](#introduction)
 - [High Priority Tasks](#high-priority-tasks)
   - [Documentation Restructuring](#documentation-restructuring)
   - [Core Workspace Tool Documentation](#core-workspace-tool-documentation)
-- [Content Enhancement](#content-enhancement)
-  - [User Experience Improvements](#user-experience-improvements)
   - [Advanced Topics](#advanced-topics)
 - [Technical Improvements](#technical-improvements)
   - [Documentation Infrastructure](#documentation-infrastructure)
@@ -37,6 +30,17 @@ Documentation project.
 ## High Priority Tasks
 
 ### Documentation Restructuring
+
+- [ ] **Create reference documentation for Workspace overlays**
+  - Document how Workspace handles overlays
+  - Explain the relationship between overlays, harnesses, and harness layers
+  - Clarify overlay lifecycle and management
+  - Provide examples of overlay usage in real projects
+
+- [ ] **Disambiguate overlay commands and concepts**
+  - Add clear information about the difference between the `app overlay:apply` command and harness overlay mechanisms
+  - Document best practices for using overlays in both contexts
+  - Provide guidance on when to use each overlay approach
 
 - [ ] **Isolate harness-specific documentation**
   - Move harness-specific content to a separate harness documentation project
