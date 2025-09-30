@@ -142,5 +142,6 @@ versions from later sources augment the set.
 
 If you maintain the entire harness inside your project repository, you can
 bypass indexes by implementing a **local realisation workflow**. See
-[`local-harness.md`](local-harness.md) for the confd-driven approach and
-command overrides that keep everything local without publishing JSON catalogs.
+See [Local Harness Pattern](../guides/local-harness.md) for the confd-driven approach
+and command overrides that keep everything local without publishing JSON
+catalogs.

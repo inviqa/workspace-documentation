@@ -136,8 +136,8 @@ base-harness/
 ## File Materialisation (confd.yml)
 
 File mapping from template sources into the realized development harness is
-controlled by `confd.yml`. See
-**[Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)** for
+controlled by `confd.yml`. See **[Harness File Materialisation
+(confd.yml)](reference/harness-confd-file-mappings.md)** for
 prefix semantics (`harness:/`, `workspace:/`), layering, ordering, and
 examples.
 
@@ -145,7 +145,7 @@ examples.
 
 ## Defining Commands
 
-See **[Defining Commands](defining-commands.md)** for syntax, interpreters,
+See **[Defining Commands](guides/defining-commands.md)** for syntax,
 filters, and composition patterns.
 
 ---
@@ -189,14 +189,16 @@ canonical file. Other documents should only summarize and link back.
 Canonical sources:
 
 - Core workspace commands & functions:
-  `workspace-commands-functions-index.md` (authoritative list).
+  `reference/workspace-commands-functions-index.md` (authoritative list).
   Summaries: harness summaries, deep dives.
 - Template & file materialisation pipeline:
-  `harness-confd-file-mappings.md` (deep dive: `confd.yml`, layering,
+  `reference/harness-confd-file-mappings.md` (deep dive: `confd.yml`, layering,
   overlay, diagnostics).
 - Implementation source mapping:
-  `implementation-references.md` (maps features to PHP classes & scripts).
-- Aggregated harness overview: `all-harnesses-summary.md` (high-level feature highlights).
+  `reference/implementation-references.md` (maps features to PHP classes &
+  scripts).
+- Aggregated harness overview: `reference/all-harnesses-summary.md`
+  (high-level feature highlights).
 - Harness architecture & authoring concepts: this `README.md` (conceptual orientation).
 - Planned improvements / roadmap: `TODO.md` (tasks & roadmap).
 
@@ -229,14 +231,20 @@ See `.github/workflows/docs-duplicate-commands.yml` (when enabled) and
 
 The following focused documents provide additional technical depth:
 
-- Harness command & function index: [workspace-commands-functions-index.md](workspace-commands-functions-index.md)
-- Harness summary highlights: [all-harnesses-summary.md](all-harnesses-summary.md)
-- Implementation references: [implementation-references.md](implementation-references.md)
-- Harness file materialisation: [harness-confd-file-mappings.md](harness-confd-file-mappings.md)
-- Mutagen integration: [mutagen-integration.md](mutagen-integration.md)
-- Visual harness tree: [harness-tree.md](harness-tree.md)
-- Local harness pattern: [local-harness.md](local-harness.md)
-- Building a reusable harness: [building-a-harness.md](building-a-harness.md)
+- Harness command & function index:
+  [workspace-commands-functions-index.md](reference/workspace-commands-functions-index.md)
+- Harness summary highlights:
+  [all-harnesses-summary.md](reference/all-harnesses-summary.md)
+- Implementation references:
+  [implementation-references.md](reference/implementation-references.md)
+- Harness file materialisation:
+  [harness-confd-file-mappings.md](reference/harness-confd-file-mappings.md)
+- Mutagen integration:
+  [mutagen-integration.md](guides/mutagen-integration.md)
+- Visual harness tree: [harness-tree.md](reference/harness-tree.md)
+- Local harness pattern: [local-harness.md](guides/local-harness.md)
+- Building a reusable harness:
+  [building-a-harness.md](guides/building-a-harness.md)
 
 ---
 
@@ -250,14 +258,14 @@ Harness maintainers should follow a predictable deprecation process:
   emits a warning rather than hard-breaking immediately.
 3. Track active deprecations in the harness manifest (`harness.yml`) under a
   field such as `notes.deprecations` (see example in
-  [building-a-harness.md](building-a-harness.md)).
+  [building-a-harness.md](guides/building-a-harness.md)).
 4. Remove deprecated surface only in the next MAJOR release unless a security
   or correctness issue forces earlier action.
 5. Communicate upgrade steps (attribute renames, destination file changes)
   clearly in release notes.
 
 Full rationale, contract definition, and versioning detail: see
-**[Building a Reusable Harness](building-a-harness.md)** (Sections: Versioning,
-Backwards Compatibility Contract, Deprecation Policy).
+**[Building a Reusable Harness](guides/building-a-harness.md)** (Sections:
+Versioning, Backwards Compatibility Contract, Deprecation Policy).
 
 ---

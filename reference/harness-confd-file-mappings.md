@@ -23,7 +23,7 @@
 See also:
 
 - **[Workspace Commands Index](workspace-commands-functions-index.md)** for a full list of core and harness commands.
-- **[Documentation README](README.md)** for orientation and other conceptual guides.
+- **[Documentation README](../README.md)** for orientation and other conceptual guides.
 
 ## Overview
 
@@ -333,10 +333,10 @@ Each path passed to `ConfdFactory::create($path)` corresponds to a directory pre
 > `workspace.yml`, but that does **not** exist at present.
 >
 > For an officially documented workaround describing the "minimal local harness"
-> approach, see: [Local Harness Pattern](local-harness.md).
+> approach, see: [Local Harness Pattern](../guides/local-harness.md).
 >
 > For guidance on evolving a path-based harness into a published reusable
-> package, see: [Building a Reusable Harness](building-a-harness.md).
+> package, see: [Building a Reusable Harness](../guides/building-a-harness.md).
 
 
 ### 3. Rendering Order & Last-Write Wins
@@ -463,7 +463,8 @@ need `harness prepare`. If you changed template sources, overlay files, or
 
 ## Referencing in Other Docs
 
-Link: `[Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)`
+Link: `[Harness File Materialisation (confd.yml)](
+  ../reference/harness-confd-file-mappings.md)`
 wherever contributors need to understand how files appear under `.my127ws/` or
 why root files exist without being explicitly committed.
 

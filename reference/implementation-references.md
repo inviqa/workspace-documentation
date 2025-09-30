@@ -47,7 +47,8 @@ their underlying source files for faster maintenance and onboarding.
 - Script: `workspace/home/service/proxy/init.sh`.
 - Behaviour (`restart`): disables, re-fetches TLS cert/key (via config),
   rebuilds & starts Traefik.
-- Related Docs: `workspace-commands-functions-index.md` (Proxy restart section).
+- Related Docs: `reference/workspace-commands-functions-index.md` (Proxy
+  restart section).
 
 ## Confd Processing
 
@@ -55,7 +56,7 @@ their underlying source files for faster maintenance and onboarding.
   `workspace/src/Types/Workspace/Installer.php` (invoked in `STEP_PREPARE`).
 - Definition Parsing: `workspace/src/Types/Confd/DefinitionFactory.php` (parses `confd.yml`).
 - Workspace Integration: `Installer.php` calls `$this->confd->create(...)->apply()`.
-- Detailed Doc: `harness-confd-file-mappings.md`.
+- Detailed Doc: `reference/harness-confd-file-mappings.md`.
 
 ## Overlay Directory
 
@@ -93,5 +94,6 @@ their underlying source files for faster maintenance and onboarding.
 
 See also:
 
-- `workspace-commands-functions-index.md` (user-facing overview)
-- `harness-confd-file-mappings.md` (template & file materialisation deep dive)
+- `reference/workspace-commands-functions-index.md` (user-facing overview)
+- `reference/harness-confd-file-mappings.md` (template & file materialisation
+  deep dive)

@@ -245,7 +245,7 @@ Keep only what you will actually use. Everything above is optional except `harne
 Introduce `application/overlay/` once you need centrally governed CI or
 credential bootstrap across multiple projects. Start without it if unsure.
 
-Deep dive: see [Application Overlay](application-overlay.md).
+Deep dive: see [Application Overlay](./application-overlay.md).
 
 ### Layout FAQ & Rationale
 
@@ -614,7 +614,7 @@ public API—rename only in MAJOR releases.
 ## See Also
 
 - [Local Harness Pattern](local-harness.md)
-- [Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)
+- [Harness File Materialisation (confd.yml)](../reference/harness-confd-file-mappings.md)
 - Any existing published harness READMEs (for style alignment)
 
 ---

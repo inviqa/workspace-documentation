@@ -43,15 +43,20 @@ functions available across all harnesses in the workspace.
 
 Individual detailed documentation for each harness:
 
-- [Workspace Commands and Functions - Master Index](../references/workspace-commands-functions-index.md)
-- [Harness Base Node Commands and Functions](../references/harnesses/harness-base-node-commands-functions.md)
-- [Harness Base PHP Commands and Functions](../references/harnesses/harness-base-php-commands-functions.md)
-- [Harness Docker Commands and Functions](../references/harnesses/harness-docker-commands-functions.md)
+- [Workspace Commands and Functions - Master Index](
+  ../reference/workspace-commands-functions-index.md)
+- [Harness Base Node Commands and Functions](
+  ../reference/harnesses/harness-base-node-commands-functions.md)
+- [Harness Base PHP Commands and Functions](
+  ../reference/harnesses/harness-base-php-commands-functions.md)
+- [Harness Docker Commands and Functions](
+  ../reference/harnesses/harness-docker-commands-functions.md)
 
 ## Quick Reference: Common Commands Across Harnesses
 
 For the full authoritative list of core and shared harness commands, see:
-**[Workspace Commands and Functions - Master Index](../references/workspace-commands-functions-index.md)**.
+**[Workspace Commands and Functions - Master Index](
+  ../reference/workspace-commands-functions-index.md)**.
 
 Below are category highlights (non-exhaustive). Use the master index for
 details, usage patterns, and implementation references.
