@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated README.md to include link to new command definition documentation
 - Enhanced Table of Contents with "Defining Commands" section
+- Clarified overlay attribute behaviour, documented harness path access, and
+  updated examples to prefer `harnessLayers` in `guides/local-harness.md`
 
 ### Fixed
 

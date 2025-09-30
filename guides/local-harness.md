@@ -68,8 +68,8 @@ You may choose different names; `local-harness` simply conveys intent.
 
 ```yaml
 workspace('my-app'):
-  harness:
-    path: ./local-harness
+  harnessLayers:
+    - path: ./local-harness
   attributes:
     app:
       name: my-app
@@ -78,7 +78,11 @@ workspace('my-app'):
 
 Key points:
 
-- `path:` points to a directory treated as a harness layer (no vendor download).
+- `harnessLayers:` accepts one or more local directories. Even with a single layer,
+  using the list form keeps future layering obvious. (Workspace still supports the
+  legacy `harness:` shorthand if you encounter it.)
+- Each layer `path` points to a directory treated as a harness source (no vendor
+  download).
 - You can add attributes consumed by Twig templates.
 
 ## Minimal `confd.yml`
@@ -191,13 +195,25 @@ overriding two commands:
 Create `workspace/config/install.local.yml` (or a similar file under
 `workspace/config/`) with the following definitions:
 
+> **Overlay attribute heads-up:** Workspace reads `overlay:` from
+> `workspace.yml` so it can apply the directory during the standard install
+> step, but it does **not** publish that value into the attribute collection.
+> If you want to access the overlay path via `@('…')` in your commands, define
+> your own attribute (for example `attribute('install.overlay_dir')`) and
+> reference that instead.
+
+Workspace does publish harness layer paths under `workspace.harnessLayers`.
+The helper command `install local list-layers` (defined below) uses
+`$ws->getHarnessLayers()` so every configured layer is automatically synced in
+render order—add a new entry to `harnessLayers` and it will be copied without
+further adjustments.
+
 ```yaml
 command('install [--skip-events]'):
   description: Realise local harness without remote repositories
   env:
-    HARNESS_DIR: 'local-harness'
     INSTALL_DIR: '.my127ws'
-    OVERLAY_DIR: "= @('workspace.overlay') ?? ''"
+    OVERLAY_DIR: './tools/workspace-overlay'
     SKIP_EVENTS: "= input.option('skip-events') ? 1 : 0"
   exec: |
     #!bash(workspace:/)|@
@@ -211,28 +227,56 @@ workspace()->trigger(getenv('MY127_EVENT'));
 PHP
     }
 
-    if [ @{SKIP_EVENTS} -eq 0 ]; then
+    if [ ${SKIP_EVENTS} -eq 0 ]; then
       trigger_event before.harness.install
     fi
 
-    if [ -d "@{INSTALL_DIR}" ]; then
-      rm -rf "@{INSTALL_DIR}"
-    fi
-    mkdir -p "@{INSTALL_DIR}"
+    HARNESS_DIRS=()
+    while IFS= read -r layer_path || [ -n "$layer_path" ]; do
+      HARNESS_DIRS+=("${layer_path}")
+    done < <(ws install local list-layers)
 
-    echo "Copying @{HARNESS_DIR} → @{INSTALL_DIR}"
-    rsync -a "@{HARNESS_DIR}/" "@{INSTALL_DIR}/"
-
-    if [ -n "@{OVERLAY_DIR}" ] && [ -d "@{OVERLAY_DIR}" ]; then
-      echo "Applying overlay @{OVERLAY_DIR}"
-      rsync -a "@{OVERLAY_DIR}/" "@{INSTALL_DIR}/"
+    if [ ${#HARNESS_DIRS[@]} -eq 0 ]; then
+      echo "No harness layers defined; aborting."
+      exit 1
     fi
 
-    if [ @{SKIP_EVENTS} -eq 0 ]; then
+    if [ -d "${INSTALL_DIR}" ]; then
+      rm -rf "${INSTALL_DIR}"
+    fi
+    mkdir -p "${INSTALL_DIR}"
+
+    for layer_dir in "${HARNESS_DIRS[@]}"; do
+      if [ ! -d "${layer_dir}" ]; then
+        echo "Expected harness layer directory '${layer_dir}' not found."
+        exit 1
+      fi
+      echo "Syncing ${layer_dir} → ${INSTALL_DIR}"
+      rsync -a "${layer_dir}/" "${INSTALL_DIR}/"
+    done
+
+    if [ -n "${OVERLAY_DIR}" ] && [ -d "${OVERLAY_DIR}" ]; then
+      echo "Applying overlay ${OVERLAY_DIR}"
+      rsync -a "${OVERLAY_DIR}/" "${INSTALL_DIR}/"
+    fi
+
+    if [ ${SKIP_EVENTS} -eq 0 ]; then
       trigger_event after.harness.install
     fi
 
-    echo "Harness files staged in @{INSTALL_DIR}; run 'ws harness prepare' next."
+    echo "Harness files staged in ${INSTALL_DIR}."
+    echo "Run 'ws harness prepare local' next."
+
+command('install local list-layers'):
+  description: Internal helper to list configured harness layer paths
+  exec: |
+    #!php(workspace:/)
+    $layers = $ws->getHarnessLayers() ?? [];
+    foreach ($layers as $layer) {
+      if (!empty($layer['path'])) {
+        echo rtrim($layer['path']) . "\n";
+      }
+    }
 
 command('harness prepare [--skip-events]'):
   description: Render local harness templates via confd
@@ -267,7 +311,8 @@ With these overrides in place the workflow is:
    lookup needed).
 
 The commands honour `--skip-events` to remain compatible with existing hooks.
-See [`harness-indexes.md`](harness-indexes.md) for background on indexes and
+See [Harness Indexes](../reference/harness-indexes.md) for background on
+indexes and
 when you still need them.
 
 ## Version Control Guidance
@@ -319,7 +364,7 @@ etc.). Example minimal scaffold:
 > Overlay vs Skeleton: if, during this evolution, you start needing centrally
 > managed CI/auth/ignore policy files that should be refreshable across
 > multiple projects, introduce an `application/overlay/` directory. See the
-> [Application Overlay](application-overlay.md) deep dive for rationale and
+> [Application Overlay](./application-overlay.md) deep dive for rationale and
 > lifecycle. Keep `application/skeleton/` for one‑time scaffolding only.
 
 ```text
@@ -374,8 +419,8 @@ In `workspace.yml` keep using a path-based harness during the incubation phase:
 
 ```yaml
 workspace('my-app'):
-  harness:
-    path: ./local-harness
+  harnessLayers:
+    - path: ./local-harness
   attributes:
     php:
       version: 8.3
@@ -413,7 +458,7 @@ Guidelines:
   in the main README once added).
 
 > Deprecation planning: see **Deprecation Guidelines** in `README.md` and the
-> "Deprecation Policy" portion of [building-a-harness.md](building-a-harness.md)
+> "Deprecation Policy" portion of [Building a Reusable Harness](building-a-harness.md)
 > before removing or renaming public files / commands.
 
 ### Layering Within an In-Repo Harness
@@ -424,8 +469,8 @@ an `overlay` directory referencing additional overrides:
 
 ```yaml
 workspace('my-app'):
-  harness:
-  path: ./local-harness
+  harnessLayers:
+    - path: ./local-harness
   overlay: tools/workspace-overlay    # optional
 ```
 
@@ -531,8 +576,8 @@ If you have only (2) and (4), you already get deterministic rendering.
 
    ```yaml
    workspace('app'):
-     harness:
-       path: ./local-harness
+     harnessLayers:
+       - path: ./local-harness
      overlay: overlays/variant-a
    ```
 
@@ -614,6 +659,6 @@ confd paths. Until then, this pattern is the simplest supported approach.
 
 ### See also
 
-- [Harness File Materialisation (confd.yml)](harness-confd-file-mappings.md)
-- [Workspace Commands & Functions Index](workspace-commands-functions-index.md)
+- [Harness File Materialisation (confd.yml)](../reference/harness-confd-file-mappings.md)
+- [Workspace Commands & Functions Index](../reference/workspace-commands-functions-index.md)
 - [Building a Reusable Harness](building-a-harness.md)
