@@ -7,7 +7,9 @@
 - [When to Use (and When Not To)](#when-to-use-and-when-not-to)
 - [Directory Layout](#directory-layout)
 - [Defining the Local Harness in `workspace.yml`](#defining-the-local-harness-in-workspaceyml)
+- [Required Helper Commands (Local Harness Overrides)](#required-helper-commands-local-harness-overrides)
 - [Minimal `confd.yml`](#minimal-confdyml)
+  - [Why `workspace:/` Prefix?](#why-workspace-prefix)
 - [Template Examples](#template-examples)
 - [Running the Render Pipeline](#running-the-render-pipeline)
 - [How It Works Internally](#how-it-works-internally)
@@ -16,9 +18,22 @@
 - [Limitations](#limitations)
 - [Migration to a Full Harness Later](#migration-to-a-full-harness-later)
 - [Upgrading to a Complete In-Repo Harness (Using `.my127ws/` Structure)](#upgrading-to-a-complete-in-repo-harness-using-my127ws-structure)
+  - [Why Build a Complete In-Repo Harness First?](#why-build-a-complete-in-repo-harness-first)
+  - [Target Layout (Authoritative Sources)](#target-layout-authoritative-sources)
+  - [Example Expanded Confd Yml](#example-expanded-confd-yml)
+  - [Declaring the Harness](#declaring-the-harness)
+  - [Minimal `harness.yml` Template (When Preparing to Publish)](#minimal-harnessyml-template-when-preparing-to-publish)
+  - [Layering Within an In-Repo Harness](#layering-within-an-in-repo-harness)
+  - [Migrating to a Published Package Later](#migrating-to-a-published-package-later)
+  - [Pros / Cons of Staying In-Repo Longer](#pros--cons-of-staying-in-repo-longer)
+  - [Choosing Between Minimal vs Complete In-Repo Harness](#choosing-between-minimal-vs-complete-in-repo-harness)
+  - [Practical Tips](#practical-tips)
+  - [Do I Need an Overlay with a Complete In-Repo Harness?](#do-i-need-an-overlay-with-a-complete-in-repo-harness)
+  - [When to Stop and Publish](#when-to-stop-and-publish)
 - [Comparison with Custom Command Approach](#comparison-with-custom-command-approach)
 - [Future Direction (Potential Enhancement)](#future-direction-potential-enhancement)
 - [Quick Start Checklist](#quick-start-checklist)
+  - [See also](#see-also)
 
 <!-- /TOC -->
 > Status: Experimental usage pattern. This document describes how to leverage
@@ -78,25 +93,27 @@ workspace('my-app'):
 
 Key points:
 
-- `harnessLayers:` accepts one or more local directories. Even with a single layer,
-  The two helper commands are required for the override to behave like the
-  stock installer:
-
-  - `install local trigger-event` keeps the standard `before/after` install
-    hooks intact so any listeners still run even though the harness is not
-    downloaded from an index.
-  - `install local list-layers` queries Workspace for every configured entry in
-    `harnessLayers`, ensuring all directories are copied into `.my127ws/` in
-    the expected order (add a new layer to `workspace.yml` and it is picked up
-    automatically).
-
-  Do not remove these helpers unless Workspace gains native support for
-  path-based installs without them.
-  using the list form keeps future layering obvious. (Workspace still supports the
-  legacy `harness:` shorthand if you encounter it.)
-- Each layer `path` points to a directory treated as a harness source (no vendor
-  download).
+- `harnessLayers:` accepts one or more local directories. Even with a single
+  layer, using the list form keeps future layering obvious. (Workspace still
+  supports the legacy `harness:` shorthand if you encounter it.)
+- Each layer `path` points to a directory treated as a harness source (no
+  vendor download).
 - You can add attributes consumed by Twig templates.
+
+### Required Helper Commands (Local Harness Overrides)
+
+These two helper commands are essential for a path‑based local harness to
+behave like a downloaded harness during install and prepare phases:
+
+- `install local trigger-event` – emits lifecycle events (`before.harness.install`,
+  `after.harness.install`, etc.) so existing event hooks still run.
+- `install local list-layers` – enumerates every configured entry in
+  `harnessLayers` ensuring all layer directories are copied into `.my127ws/`
+  in declared order.
+
+Do not remove or rename them unless Workspace gains native support for
+path‑based installs without these helpers. Copy their implementations into
+`workspace/config/install.local.yml` as shown later in this document.
 
 ## Minimal `confd.yml`
 
@@ -433,7 +450,8 @@ ready to extract and publish a reusable package would you optionally rename it
 to a neutral `harness/` (or move it into a separate repository). Naming is not
 enforced by tooling—`harness.path` directs the lookup.
 
-### Example Expanded `confd.yml`
+
+### Example Expanded Confd Yml
 
 `local-harness/config/confd.yml` (showing both destination roots):
 
