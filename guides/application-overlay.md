@@ -7,16 +7,16 @@
 
 - [Purpose](#purpose)
 - [Typical Contents](#typical-contents)
-- [Render + Apply Lifecycle](#render--apply-lifecycle)
+- [Render and apply lifecycle](#render-and-apply-lifecycle)
 - [Attribute Injection](#attribute-injection)
-- [Commands & Tasks](#commands--tasks)
-- [Upgrade & Refresh Practices](#upgrade--refresh-practices)
+- [Commands and tasks](#commands-and-tasks)
+- [Upgrade and refresh practices](#upgrade-and-refresh-practices)
 - [Extension Guidelines](#extension-guidelines)
 - [Anti-Patterns](#anti-patterns)
-- [Provenance / Drift Detection (Optional Enhancements)](#provenance--drift-detection-optional-enhancements)
+- [Provenance and drift detection (optional enhancements)](#provenance-and-drift-detection-optional-enhancements)
 - [Quick Reference](#quick-reference)
 - [Checklist (Author Perspective)](#checklist-author-perspective)
-- [See Also](#12-see-also)
+- [See Also](#see-also)
 
 <!-- /TOC -->
 
@@ -51,7 +51,7 @@ artefact set that may be refreshed after upgrades.
 A supporting `_twig/` subtree can hold fragment pieces (e.g.
 `.dockerignore/static.twig`, `.dockerignore/dynamic.twig`).
 
-## Render + Apply Lifecycle
+## Render and apply lifecycle
 
 1. `ws harness prepare` renders harness templates into `.my127ws/...` according
    to `harness/config/confd.yml` mapping entries.
@@ -88,7 +88,7 @@ Examples of attribute groups often referenced:
 Keep attribute usage **declarative**: avoid embedding sensitive secrets; prefer
 credential indirection via CI secret stores or environment injection.
 
-## Commands & Tasks
+## Commands and tasks
 
 Provide an explicit command to re-apply overlays:
 
@@ -108,7 +108,7 @@ run rsync --exclude='*.twig' --exclude='_twig' \
 
 Optionally add a `--dry-run` mode (e.g. `rsync -an`) to preview changes.
 
-## Upgrade & Refresh Practices
+## Upgrade and refresh practices
 
 | Scenario | Action |
 |----------|--------|
@@ -140,7 +140,7 @@ Avoid overlaying:
 | Huge monolithic Jenkinsfile logic | Hard to reason | Extract tasks into cmds |
 | Direct write to root w/out filtering | Copies `.twig` sources | Use excludes |
 
-## Provenance / Drift Detection (Optional Enhancements)
+## Provenance and drift detection (optional enhancements)
 
 You can add a header line to managed overlay files:
 

@@ -4,22 +4,20 @@
 <!-- QUICK-INDEX -->
 ## Quick Index
 
-- [Overview](#overview)
-- [Commands](#commands)
-- [Functions](#functions)
-- [Examples](#examples)
-
+- Orientation: [Overview](#overview)
+- Core tasks: [Commands](#commands)
+- Extensibility: [Functions](#functions)
+- How-to: [Examples](#examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Introduction](#introduction)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: harness-base-php/src/_base/harness/config/commands-php.yml](#file-harness-base-phpsrc_baseharnessconfigcommands-phpyml)
 - [Functions](#functions)
-  - [File: harness-base-php/src/_base/harness/config/functions-php.yml](#file-harness-base-phpsrc_baseharnessconfigfunctions-phpyml)
 - [Examples](#examples)
 
 <!-- /TOC -->

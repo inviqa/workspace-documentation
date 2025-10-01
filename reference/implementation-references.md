@@ -3,6 +3,7 @@
 <!-- TOC -->
 ## Table of Contents
 
+- [Purpose](#purpose)
 - [Conventions](#conventions)
 - [Proxy Service (`ws global service proxy <enable|disable|restart>`)](#proxy-service-ws-global-service-proxy-enabledisablerestart)
 - [Confd Processing](#confd-processing)
@@ -11,10 +12,10 @@
 - [Adding New Command References](#adding-new-command-references)
 
 <!-- /TOC -->
-# Implementation References
+## Purpose
 
-Purpose: Quick map from user-facing `ws` commands and documented features to
-their underlying source files for faster maintenance and onboarding.
+Quick map from user-facing `ws` commands and documented features to their
+underlying source files for faster maintenance and onboarding.
 
 ## Conventions
 

@@ -1,31 +1,24 @@
 # Harness Magento 1 - Commands and Functions Documentation
 
 <!-- QUICK-INDEX -->
-**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+## Quick Index
+
+- Orientation: [Overview](#overview)
+- Core tasks: [Environment Lifecycle](#environment-lifecycle), [Feature Toggles](#feature-toggles)
+- Data & assets: [Database](#database)
+- Build & deploy: [Pipeline](#file-harness-magento1harnessconfigpipelineyml)
+- Reference: [Functions](#functions), [Usage Examples](#usage-examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: `harness-magento1/harness/config/commands.yml`](#file-harness-magento1harnessconfigcommandsyml)
-    - [Environment Lifecycle](#environment-lifecycle)
-    - [Network Management](#network-management)
-    - [Container Access](#container-access)
-    - [Composer](#composer)
-    - [Database](#database)
-    - [Frontend](#frontend)
-    - [Ports](#ports)
-    - [PHP-FPM](#php-fpm)
-    - [Configuration Management](#configuration-management)
-    - [Feature Toggles](#feature-toggles)
-    - [Docker Sync](#docker-sync)
-    - [Harness Updates](#harness-updates)
-  - [File: `harness-magento1/harness/config/external-images.yml`](#file-harness-magento1harnessconfigexternal-imagesyml)
-  - [File: `harness-magento1/harness/config/pipeline.yml`](#file-harness-magento1harnessconfigpipelineyml)
 - [Functions](#functions)
-  - [File: `harness-magento1/harness/config/functions.yml`](#file-harness-magento1harnessconfigfunctionsyml)
+- [Usage Examples](#usage-examples)
+
 <!-- /TOC -->
 
 This document covers all commands and functions available in the Magento 1 harness.
@@ -37,7 +30,6 @@ feature toggles for Blackfire, Tideways, and Xdebug. Includes pipeline and
 external-images helpers.
 
 ---
-
 
 ## Commands
 

@@ -1,28 +1,25 @@
-
 # Harness Base Node Commands and Functions
 
 <!-- QUICK-INDEX -->
 ## Quick Index
 
-- [Overview](#overview)
-- [Commands](#commands)
-  - [Command Source File](#file-harness-base-nodesrc_baseharnessconfigcommandsyml)
-- [Functions](#functions)
-  - [Function Source File](#file-harness-base-nodesrc_baseharnessconfigfunctionsyml)
-- [Examples](#examples)
-
+- Orientation: [Overview](#overview)
+- Core tasks: [Commands](#commands)
+- Source: [Command Source](#file-harness-base-nodesrc_baseharnessconfigcommandsyml), [Function Source](#file-harness-base-nodesrc_baseharnessconfigfunctionsyml)
+- Extensibility: [Functions](#functions)
+- How-to: [Examples](#examples), [Usage Examples](#usage-examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Introduction](#introduction)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: harness-base-node/src/_base/harness/config/commands.yml](#file-harness-base-nodesrc_baseharnessconfigcommandsyml)
 - [Functions](#functions)
-  - [File: harness-base-node/src/_base/harness/config/functions.yml](#file-harness-base-nodesrc_baseharnessconfigfunctionsyml)
 - [Examples](#examples)
+- [Usage Examples](#usage-examples)
 
 <!-- /TOC -->
 
@@ -48,8 +45,7 @@ tooling.
 - Config: `ws set <attribute> <value>`
 
 ---
-
-
+ 
 ## Functions
 
 ### File: `harness-base-node/src/_base/harness/config/functions.yml`
@@ -70,8 +66,7 @@ tooling.
 $ ws yarn install
 Yarn install/build output, dependencies installed
 ```
-
-
+ 
 ### Enable the workspace
 
 ```bash

@@ -31,38 +31,19 @@ Documentation project.
 
 ### Documentation Restructuring
 
-- [ ] **Create reference documentation for Workspace overlays**
-  - Document how Workspace handles overlays
-  - Explain the relationship between overlays, harnesses, and harness layers
-  - Clarify overlay lifecycle and management
-  - Provide examples of overlay usage in real projects
+- [x] **Isolate harness-specific documentation**
+  - (Phase 1) Scope clarified in updated README; relocation plan noted.
+  - (Pending Phase 2) Physical extraction to external repos.
+  - Harness indexes retained temporarily with deprecation notice.
 
-- [ ] **Disambiguate overlay commands and concepts**
-  - Add clear information about the difference between the `app overlay:apply` command and harness overlay mechanisms
-  - Document best practices for using overlays in both contexts
-  - Provide guidance on when to use each overlay approach
+- [x] **Create project startup documentation**
+  - Added `guides/getting-started.md` (with & without harness paths).
+  - Added `guides/project-startup-without-harness.md` deep dive.
+  - Harness selection & configuration best practices covered.
 
-- [ ] **Isolate harness-specific documentation**
-  - Move harness-specific content to a separate harness documentation project
-  - Keep only general Workspace tool documentation in this project
-  - Clarify scope: this project should focus on Workspace tool usage, not
-    harness implementation details
-
-- [ ] **Create project startup documentation**
-  - Document how to start a project **with** a harness
-    - Harness selection guide
-    - Project initialization process
-    - Configuration best practices
-  - Document how to start a project **without** a harness
-    - Manual workspace setup
-    - Custom command creation
-    - Direct workspace.yml configuration
-
-- [ ] **Create harness extension documentation**
-  - Guide for extending existing harnesses
-  - Creating custom harness variants
-  - Override patterns and best practices
-  - Contribution guidelines for harness repositories
+- [x] **Create harness extension documentation**
+  - Added `guides/harness-extension.md` (patterns, variant promotion, contrib).
+  - Checklist + pitfalls section included.
 
 ### Core Workspace Tool Documentation
 
@@ -99,6 +80,17 @@ Documentation project.
   - Attribute system explanation and examples
 
 ### Advanced Topics
+
+- [ ] **Create reference documentation for Workspace overlays**
+  - Document how Workspace handles overlays
+  - Explain the relationship between overlays, harnesses, and harness layers
+  - Clarify overlay lifecycle and management
+  - Provide examples of overlay usage in real projects
+
+- [ ] **Disambiguate overlay commands and concepts**
+  - Add clear information about the difference between the `app overlay:apply` command and harness overlay mechanisms
+  - Document best practices for using overlays in both contexts
+  - Provide guidance on when to use each overlay approach
 
 - [ ] **Add deployment and CI/CD documentation**
   - Integration with popular CI/CD platforms

@@ -1,30 +1,24 @@
 # Harness Go - Commands and Functions Documentation
 
 <!-- QUICK-INDEX -->
-**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+## Quick Index
+
+- Orientation: [Overview](#overview)
+- Core tasks: [Environment Management](#environment-management-commands)
+- Quality: [Testing](#testing-commands), [Benchmarking](#benchmarking-commands), [Code Quality](#code-quality-analysis)
+- Delivery: [Build](#build-commands)
+- Reference: [Functions](#functions), [Usage Examples](#usage-examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: `harness-go/harness/config/commands.yml`](#file-harness-goharnessconfigcommandsyml)
-    - [Environment Management Commands](#environment-management-commands)
-    - [Network Management Commands](#network-management-commands)
-    - [Build Commands](#build-commands)
-    - [Container Access Commands](#container-access-commands)
-    - [Go Development Commands](#go-development-commands)
-    - [Testing Commands](#testing-commands)
-    - [Benchmarking Commands](#benchmarking-commands)
-    - [Code Formatting Commands](#code-formatting-commands)
-    - [Development Commands](#development-commands)
-    - [Configuration Management Commands](#configuration-management-commands)
 - [Functions](#functions)
-  - [File: `harness-go/harness/config/functions.yml`](#file-harness-goharnessconfigfunctionsyml)
-    - [YAML Processing Functions](#yaml-processing-functions)
-    - [Array Processing Functions](#array-processing-functions)
-    - [String Processing Functions](#string-processing-functions)
+- [Usage Examples](#usage-examples)
+
 <!-- /TOC -->
 
 This document provides comprehensive documentation of all commands and functions available in the harness-go harness for Go application development.

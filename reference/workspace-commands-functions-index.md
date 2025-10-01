@@ -16,21 +16,19 @@
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Introduction](#introduction)
 - [Overview](#overview)
 - [Related Documentation](#related-documentation)
 - [Core Workspace Commands](#core-workspace-commands)
-  - [File: workspace/config/workspace/global.yml](#file-workspaceconfigworkspaceglobalyml)
-  - [Global Service Management](#global-service-management)
-  - [Configuration Management](#configuration-management)
-  - [System Management](#system-management)
-  - [Workspace Creation](#workspace-creation)
-  - [Harness Preparation](#harness-preparation)
 - [Core Workspace Utilities and Attributes](#core-workspace-utilities-and-attributes)
-  - [Utility scripts (workspace/home/bin)](#utility-scripts-workspacehomebin)
-  - [Expression functions](#expression-functions)
-  - [Built-in attributes](#built-in-attributes)
-  - [Configuration file loading order](#configuration-file-loading-order)
+- [Harness-Specific Commands](#harness-specific-commands)
+- [Common Functions Across Harnesses](#common-functions-across-harnesses)
+- [File Structure Summary](#file-structure-summary)
+- [Usage Patterns](#usage-patterns)
+- [Environment Variables](#environment-variables)
+- [Command Categories](#command-categories)
+- [Integration Points](#integration-points)
 
 <!-- /TOC -->
 

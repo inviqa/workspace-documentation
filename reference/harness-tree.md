@@ -1,5 +1,15 @@
 # Workspace Harness Parent/Child Tree and Deployment
 
+<!-- TOC -->
+## Table of Contents
+
+- [Harness Types: Base, Leaf, and Primary](#harness-types-base-leaf-and-primary)
+- [How Inheritance Works](#how-inheritance-works)
+- [How Are Harnesses Built and Deployed?](#how-are-harnesses-built-and-deployed)
+- [Example Build Script (Excerpt)](#example-build-script-excerpt)
+- [References](#references)
+
+<!-- /TOC -->
 ## Harness Types: Base, Leaf, and Primary
 
 ### Base Harnesses

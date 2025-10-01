@@ -1,5 +1,17 @@
 # Harness Indexes in Workspace
 
+<!-- TOC -->
+## Table of Contents
+
+- [1. Concepts Recap](#1-concepts-recap)
+- [2. Resolution Flow](#2-resolution-flow)
+- [3. Anatomy of an Index JSON](#3-anatomy-of-an-index-json)
+- [4. Publishing Your Own Index](#4-publishing-your-own-index)
+- [Mirroring or replacing the default index](#mirroring-or-replacing-the-default-index)
+- [6. Troubleshooting](#6-troubleshooting)
+- [7. When You Do *Not* Need an Index](#7-when-you-do-not-need-an-index)
+
+<!-- /TOC -->
 Workspace discovers harness packages through **indexes** (JSON catalogs) that
 map a package name to one or more distributable versions. This guide explains
 how indexes work, how Workspace consumes them, and how to publish your own
@@ -115,7 +127,7 @@ Guidelines:
     * Use the `harness list` command (if available) or add diagnostic output to
       your installer override.
 
-## 5. Mirroring / Replacing the Default Index
+## Mirroring or replacing the default index
 
 You can override the built-in `my127` source by re-declaring it:
 

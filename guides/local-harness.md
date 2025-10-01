@@ -7,9 +7,7 @@
 - [When to Use (and When Not To)](#when-to-use-and-when-not-to)
 - [Directory Layout](#directory-layout)
 - [Defining the Local Harness in `workspace.yml`](#defining-the-local-harness-in-workspaceyml)
-- [Required Helper Commands (Local Harness Overrides)](#required-helper-commands-local-harness-overrides)
 - [Minimal `confd.yml`](#minimal-confdyml)
-  - [Why `workspace:/` Prefix?](#why-workspace-prefix)
 - [Template Examples](#template-examples)
 - [Running the Render Pipeline](#running-the-render-pipeline)
 - [How It Works Internally](#how-it-works-internally)
@@ -18,22 +16,9 @@
 - [Limitations](#limitations)
 - [Migration to a Full Harness Later](#migration-to-a-full-harness-later)
 - [Upgrading to a Complete In-Repo Harness (Using `.my127ws/` Structure)](#upgrading-to-a-complete-in-repo-harness-using-my127ws-structure)
-  - [Why Build a Complete In-Repo Harness First?](#why-build-a-complete-in-repo-harness-first)
-  - [Target Layout (Authoritative Sources)](#target-layout-authoritative-sources)
-  - [Example Expanded Confd Yml](#example-expanded-confd-yml)
-  - [Declaring the Harness](#declaring-the-harness)
-  - [Minimal `harness.yml` Template (When Preparing to Publish)](#minimal-harnessyml-template-when-preparing-to-publish)
-  - [Layering Within an In-Repo Harness](#layering-within-an-in-repo-harness)
-  - [Migrating to a Published Package Later](#migrating-to-a-published-package-later)
-  - [Pros / Cons of Staying In-Repo Longer](#pros--cons-of-staying-in-repo-longer)
-  - [Choosing Between Minimal vs Complete In-Repo Harness](#choosing-between-minimal-vs-complete-in-repo-harness)
-  - [Practical Tips](#practical-tips)
-  - [Do I Need an Overlay with a Complete In-Repo Harness?](#do-i-need-an-overlay-with-a-complete-in-repo-harness)
-  - [When to Stop and Publish](#when-to-stop-and-publish)
 - [Comparison with Custom Command Approach](#comparison-with-custom-command-approach)
 - [Future Direction (Potential Enhancement)](#future-direction-potential-enhancement)
 - [Quick Start Checklist](#quick-start-checklist)
-  - [See also](#see-also)
 
 <!-- /TOC -->
 > Status: Experimental usage pattern. This document describes how to leverage
@@ -226,15 +211,15 @@ Create `workspace/config/install.local.yml` (or a similar file under
 `workspace/config/`) with the following definitions:
 
 > ⚠️ **Importer required:** Workspace reads only the root `workspace.yml`
-> by default. Add an import statement so your local command overrides load:
->
-> ```yaml
-> import('workspace-local'): workspace/config/*.yml
-> ```
->
-> Place it at the top of `workspace.yml` (before `workspace('…')`). Without
-> this line Workspace will ignore the files under `workspace/config/` and the
-> `ws install local` and `ws harness prepare local` commands will not exist.
+> by default. Add an import statement so your local command overrides load.
+
+```yaml
+import('workspace-local'): workspace/config/*.yml
+```
+
+Place it at the top of `workspace.yml` (before `workspace('…')`). Without
+this line Workspace will ignore the files under `workspace/config/` and the
+`ws install local` and `ws harness prepare local` commands will not exist.
 
 > **Overlay attribute heads-up:** Workspace reads `overlay:` from
 > `workspace.yml` so it can apply the directory during the standard install
@@ -449,7 +434,6 @@ You should keep using `local-harness/` while iterating. Only once you are
 ready to extract and publish a reusable package would you optionally rename it
 to a neutral `harness/` (or move it into a separate repository). Naming is not
 enforced by tooling—`harness.path` directs the lookup.
-
 
 ### Example Expanded Confd Yml
 

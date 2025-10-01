@@ -1,0 +1,4 @@
+# Files permitted to contain a live QUICK-INDEX block
+reference/workspace-commands-functions-index.md
+reference/all-harnesses-summary.md
+reference/harnesses/*-commands-functions.md

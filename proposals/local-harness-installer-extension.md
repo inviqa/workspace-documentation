@@ -1,5 +1,20 @@
 # Proposal: First-Class Support for Embedded Local Harnesses
 
+<!-- TOC -->
+## Table of Contents
+
+- [Summary](#summary)
+- [Background](#background)
+- [Goals](#goals)
+- [Non-Goals](#non-goals)
+- [Proposal Outline](#proposal-outline)
+- [Migration Path](#migration-path)
+- [Risks and mitigations](#risks-and-mitigations)
+- [Next Steps](#next-steps)
+
+<!-- /TOC -->
+
+
 ## Summary
 
 Projects that incubate harness logic inside their repository currently build
@@ -114,7 +129,7 @@ The resolver can cache the parsed list for the duration of an install run.
    installer by populating `attributes.local_harness.packages`.
 4. Deprecate the snippet once adoption confirms parity.
 
-## Risks & Mitigations
+## Risks and mitigations
 
 - **Attribute collisions:** scope keys under `local_harness.*` to avoid
   interfering with existing attributes.

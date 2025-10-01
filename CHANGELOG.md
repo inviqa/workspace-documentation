@@ -20,12 +20,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Best practices and guidelines
   - Summary table with use cases
 
+- Getting started guide (`guides/getting-started.md`)
+- Project startup without harness deep dive (`guides/project-startup-without-harness.md`)
+- Harness extension & customisation guide (`guides/harness-extension.md`)
+- Quick Index enforcement script (`tools/check-quick-index.sh`) and allowlist
+
 ### Changed
 
 - Updated README.md to include link to new command definition documentation
 - Enhanced Table of Contents with "Defining Commands" section
 - Clarified overlay attribute behaviour, documented harness path access, and
   updated examples to prefer `harnessLayers` in `guides/local-harness.md`
+- Restructured README scope (core usage focus & onboarding section)
+- Added canonical references for new onboarding guides in README
+- Marked restructuring tasks as completed in `TODO.md` (phase 1 scope clarification)
+- Removed Quick Index blocks from non-allowlisted docs (navigation now centralized)
+- Retained / curated Quick Index only for master index, harness summary,
+  and per-harness command/function docs (policy refined to allow concise
+  task-oriented entries with only valid anchors)
 
 ### Fixed
 

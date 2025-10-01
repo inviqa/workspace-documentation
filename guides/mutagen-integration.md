@@ -5,10 +5,6 @@
 
 - [Overview](#overview)
 - [Key Dependencies](#key-dependencies)
-  - [Project Root mutagen.yml](#project-root-mutagenyml)
-  - [The mutagen.sh Script](#the-mutagensh-script)
-  - [Other Workspace (ws) Commands](#other-workspace-ws-commands)
-  - [Required Software](#required-software)
 - [Startup Lifecycle](#startup-lifecycle)
 - [Conflict Handling](#conflict-handling)
 - [Current Command Coverage](#current-command-coverage)

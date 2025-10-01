@@ -3,33 +3,23 @@
 <!-- QUICK-INDEX -->
 ## Quick Index
 
-- [Workspace Management](#workspace-management)
-- [Network Management](#network-management)
-- [Node.js Development](#nodejs-development)
-- [Container Management](#container-management)
-- [Configuration Management](#configuration-management)
-- [Functions](#functions)
-  - [YAML](#yaml-processing-functions)
-  - [Arrays](#array-processing-functions)
-  - [Service Management](#service-management-functions)
-
+- Orientation: [Introduction](#introduction)
+- Core tasks: [Workspace Management](#workspace-management), [Network Management](#network-management)
+- Development: [Node.js Development](#nodejs-development), [Container Management](#container-management)
+- Configuration: [Configuration Management](#configuration-management)
+- Reference: [Functions](#functions)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Introduction](#introduction)
 - [Commands](#commands)
-  - [Workspace Management](#workspace-management)
-  - [Network Management](#network-management)
-  - [Node.js Development](#nodejs-development)
-  - [Container Management](#container-management)
-  - [Configuration Management](#configuration-management)
 - [Functions](#functions)
-  - [File: harness-node/harness/config/functions.yml](#file-harness-nodeharnessconfigfunctionsyml)
-  - [YAML Processing Functions](#yaml-processing-functions)
-  - [Array Processing Functions](#array-processing-functions)
-  - [Service Management Functions](#service-management-functions)
+- [Usage Examples](#usage-examples)
+- [Node.js Development Features](#nodejs-development-features)
+- [Integration with Other Tools](#integration-with-other-tools)
 
 <!-- /TOC -->
 

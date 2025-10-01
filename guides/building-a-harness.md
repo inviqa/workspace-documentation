@@ -1,4 +1,4 @@
-# Building a Reusable Workspace Harness
+# Building a reusable workspace harness
 
 <!-- TOC -->
 ## Table of Contents
@@ -6,33 +6,29 @@
 - [Status](#status)
 - [Should You Create a New Harness?](#should-you-create-a-new-harness)
 - [Prerequisites](#prerequisites)
-- [Authoritative Layout (Incubation Phase)](#authoritative-layout-incubation-phase)
-  - [3.1 Minimal Starter (Ultra-Lean)](#31-minimal-starter-ultra-lean)
-  - [3.2 Full Featured Reference Layout](#32-full-featured-reference-layout)
-  - [3.3 Overlay vs Skeleton (Summary)](#33-overlay-vs-skeleton-summary)
-  - [Layout FAQ & Rationale](#layout-faq--rationale)
-- [harness.path → Path-Based Development](#harnesspath--path-based-development)
-- [`confd.yml` Design](#confdyml-design)
-- [Attributes & Configuration Structure](#attributes--configuration-structure)
-- [Commands (`commands.yml`)](#commands-commandsyml)
-- [Functions (`functions.yml`)](#functions-functionsyml)
-- [Events (`events.yml`)](#events-eventsyml)
-- [Pipeline & Build (`pipeline.yml`)](#pipeline--build-pipelineyml)
-- [External Image / Dependency Helpers](#external-image--dependency-helpers)
-- [Secrets & Security](#secrets--security)
-- [Helm / Deployment Assets (Optional)](#helm--deployment-assets-optional)
-- [Quality Gates & Testing](#quality-gates--testing)
-- [From Path Harness to Packaged Harness](#from-path-harness-to-packaged-harness)
-- [`harness.yml` Manifest](#harnessyml-manifest)
-- [Versioning & Changelog](#versioning--changelog)
-- [Backwards Compatibility Contract](#backwards-compatibility-contract)
-- [Publishing Workflow (Example)](#publishing-workflow-example)
-- [Consumer Upgrade Checklist](#consumer-upgrade-checklist)
-- [Deprecation Policy](#deprecation-policy)
-- [Security & Hardening Guidelines](#security--hardening-guidelines)
-- [Migrating from Local Harness Pattern](#migrating-from-local-harness-pattern)
-- [FAQ (Focused)](#faq-focused)
-- [See Also](#see-also)
+- [Authoritative layout incubation phase](#authoritative-layout-incubation-phase)
+- [harness.path path based development](#harnesspath-path-based-development)
+- [`confd.yml` design](#confdyml-design)
+- [Attributes and configuration structure](#attributes-and-configuration-structure)
+- [Commands commandsyml](#commands-commandsyml)
+- [Functions functionsyml](#functions-functionsyml)
+- [Events eventsyml](#events-eventsyml)
+- [Pipeline and build pipelineyml](#pipeline-and-build-pipelineyml)
+- [External image dependency helpers](#external-image-dependency-helpers)
+- [Secrets and security](#secrets-and-security)
+- [Helm deployment assets optional](#helm-deployment-assets-optional)
+- [Quality gates and testing](#quality-gates-and-testing)
+- [From path harness to packaged harness](#from-path-harness-to-packaged-harness)
+- [`harness.yml` manifest](#harnessyml-manifest)
+- [Versioning and changelog](#versioning-and-changelog)
+- [Backwards compatibility contract](#backwards-compatibility-contract)
+- [Publishing workflow example](#publishing-workflow-example)
+- [Consumer upgrade checklist](#consumer-upgrade-checklist)
+- [Deprecation policy](#deprecation-policy)
+- [Security and hardening guidelines](#security-and-hardening-guidelines)
+- [Migrating from local harness pattern](#migrating-from-local-harness-pattern)
+- [FAQ focused](#faq-focused)
+- [See also](#see-also)
 
 <!-- /TOC -->
 
@@ -67,7 +63,7 @@ duplication.
 - Optional: container tooling (Docker), Helm (if you ship charts), or any
   domain-specific orchestrations you include.
 
-## Authoritative Layout (Incubation Phase)
+## Authoritative layout incubation phase
 
 During incubation you keep sources inside the consuming repository via
 `harness.path`. Below is a layout that **faithfully mirrors the real
@@ -271,7 +267,7 @@ once the harness grows, centralise persistent defaults in
 **How big before splitting into multiple harnesses?**  If unrelated stacks or
 teams evolve at different cadences, create a dedicated harness per concern.
 
-## `harness.path` → Path-Based Development
+## harness.path path based development
 
 `workspace.yml` (consumer project):
 
@@ -289,7 +285,7 @@ Advantages:
 - Fast iteration: edit → `ws harness prepare` → inspect.
 - Identical lifecycle semantics to a published harness.
 
-## `confd.yml` Design
+## `confd.yml` design
 
 Guidelines:
 
@@ -313,7 +309,7 @@ confd('workspace:/'):
   - { src: docs/README.partial.md, dst: workspace:/HARNESS-NOTES.md }
 ```
 
-## Attributes & Configuration Structure
+## Attributes and configuration structure
 
 Organise defaults under `attributes/`. Example:
 
@@ -341,7 +337,7 @@ Resolution:
 
 Document required vs optional attributes in a `docs/` note.
 
-## Commands (`commands.yml`)
+## Commands commandsyml
 
 Provide ergonomic developer operations. Keep early scope tiny
 (enable/disable/destroy wrappers) then expand.
@@ -365,7 +361,7 @@ Style points:
 - Avoid leaking implementation details (container names, paths) into consumer
   muscle memory.
 
-## Functions (`functions.yml`)
+## Functions functionsyml
 
 Only add when templates or commands need reusable logic. Categories:
 
@@ -375,7 +371,7 @@ Only add when templates or commands need reusable logic. Categories:
 
 Avoid premature addition—each function increases maintenance surface.
 
-## Events (`events.yml`)
+## Events eventsyml
 
 Lifecycle hooks allow side effects right after install / refresh. Use
 sparingly to avoid hidden magic.
@@ -390,7 +386,7 @@ after('harness.install'): |
 
 Prefer explicit documented commands over implicit heavy hooks.
 
-## Pipeline & Build (`pipeline.yml`)
+## Pipeline and build pipelineyml
 
 Separate *local dev* commands from *CI/publish* logic. Example skeleton:
 
@@ -403,14 +399,14 @@ command('app build'):
 
 Add logic for multi-service dependency order only when necessary.
 
-## External Image / Dependency Helpers
+## External image dependency helpers
 
 Pattern (optional): generate a transient compose file of upstream images to pre-pull.
 
 Keep this out until you have performance issues or reproducibility needs that
 justify complexity.
 
-## Secrets & Security
+## Secrets and security
 
 Guidelines:
 
@@ -420,7 +416,7 @@ Guidelines:
 - If integrating sealed secrets / KMS flows, isolate complexity in dedicated
   commands.
 
-## Helm / Deployment Assets (Optional)
+## Helm deployment assets optional
 
 If you template Helm charts:
 
@@ -430,7 +426,7 @@ If you template Helm charts:
 - Offer a validation command (`helm template`, `helm kubeval`) to catch errors
   early.
 
-## Quality Gates & Testing
+## Quality gates and testing
 
 | Area | Strategy | Tooling Idea |
 |------|----------|--------------|
@@ -452,7 +448,7 @@ git add tests/golden/confd
 
 CI integration example: see `.github/workflows/harness-publish.yml`.
 
-## From Path Harness to Packaged Harness
+## From path harness to packaged harness
 
 Steps:
 
@@ -465,7 +461,7 @@ Steps:
 Rollback strategy: keep the previous path harness branch/tag so you can revert
 quickly if issues surface.
 
-## `harness.yml` Manifest
+## `harness.yml` manifest
 
 The manifest used by first‑party harnesses is a regular workspace config
 fragment. The real `harness-php` file looks structurally like this (sanitised):
@@ -506,7 +502,7 @@ You may add further documents (e.g. deprecation metadata) as conventions evolve.
 
 Add fields for: required CLIs, deprecation notices, upgrade notes (once policy formalised).
 
-## Versioning & Changelog
+## Versioning and changelog
 
 Follow SemVer semantics (adapted to harness context):
 
@@ -517,7 +513,7 @@ Follow SemVer semantics (adapted to harness context):
 
 Maintain `CHANGELOG.md` with Keep-a-Changelog style for consistency.
 
-## Backwards Compatibility Contract
+## Backwards compatibility contract
 
 Clarify in README what is *public*: typically
 
@@ -530,7 +526,7 @@ What is *internal*:
 - Intermediate template naming (`*.overlay`, `.final`), staging script names.
 - Internal helper functions not documented.
 
-## Publishing Workflow (Example)
+## Publishing workflow example
 
 ```bash
 # 1. Clean & render to validate
@@ -558,7 +554,7 @@ workspace('app'):
   harness: acme/generic:0.1.0
 ```
 
-## Consumer Upgrade Checklist
+## Consumer upgrade checklist
 
 1. Read release notes / changelog.
 2. Diff rendered root files after `ws harness prepare` (look for unexpected removals).
@@ -566,13 +562,13 @@ workspace('app'):
 4. Run smoke commands (`enable`, `destroy`) in a clean clone.
 5. Commit updated generated artefacts (if any are versioned).
 
-## Deprecation Policy
+## Deprecation policy
 
 - Mark upcoming removals in CHANGELOG one MINOR version ahead.
 - Provide shims (wrapper commands) where viable.
 - Avoid silent behavioural change; communicate via README / CHANGELOG.
 
-## Security & Hardening Guidelines
+## Security and hardening guidelines
 
 | Concern | Recommendation |
 |---------|----------------|
@@ -582,7 +578,7 @@ workspace('app'):
 | Template injection | Escape dynamic content in YAML/JSON templates |
 | Privilege creep | Keep container users non-root if feasible |
 
-## Migrating from Local Harness Pattern
+## Migrating from local harness pattern
 
 | Step | Action |
 |------|--------|
@@ -593,7 +589,7 @@ workspace('app'):
 | 5 | Update consumers to package reference |
 | 6 | Remove/trim old path harness or retain as overlay for short grace period |
 
-## FAQ (Focused)
+## FAQ focused
 
 **Q:** Can I publish without Helm content even if I plan to add it later?  
 **A:** Yes—start minimal; additions are non-breaking if optional.
@@ -611,7 +607,7 @@ public API—rename only in MAJOR releases.
 **Q:** Should I template huge binaries?  
 **A:** No—keep binaries external or downloaded at enable time.
 
-## See Also
+## See also
 
 - [Local Harness Pattern](local-harness.md)
 - [Harness File Materialisation (confd.yml)](../reference/harness-confd-file-mappings.md)

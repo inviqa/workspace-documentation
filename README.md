@@ -1,50 +1,44 @@
-# Workspace Harness Documentation
+# Workspace Documentation (Core Usage & Guidance)
 
-<!-- TOC -->
-## Table of Contents
-
-- [Overview](#overview)
-- [What is a Workspace Harness?](#what-is-a-workspace-harness)
-- [Harness Structure](#harness-structure)
-- [Parent and Child Harnesses](#parent-and-child-harnesses)
-- [How Harnesses are Built and Deployed](#how-harnesses-are-built-and-deployed)
-- [Creating a New Project with a Harness](#creating-a-new-project-with-a-harness)
-- [Customizing a Harness](#customizing-a-harness)
-- [File Materialisation (confd.yml)](#file-materialisation-confdyml)
-- [Defining Commands](#defining-commands)
-- [Workspace Tools](#workspace-tools)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
-- [References](#references)
-- [Documentation Canonical Sources](#documentation-canonical-sources)
-- [Related Deep Dives](#related-deep-dives)
-- [Deprecation Guidelines (Summary)](#deprecation-guidelines-summary)
-
-<!-- /TOC -->
-# Workspace Harness Documentation
+> This repository now focuses on **core Workspace usage, onboarding, and
+> extension patterns**. Deep harness implementation internals are being
+> progressively relocated to dedicated harness repositories. Harness specific
+> command/function indexes remain temporarily for convenience and will be
+> flagged when migrated.
 
 > ⚠️ **WORK IN PROGRESS**: This documentation set is being actively
 > refactored toward a canonical-source model. Sections, filenames, and
 > anchors may change. Please report broken links instead of copying or
 > recreating content.
 
-## Overview
+## Scope Overview
 
-This documentation explains the Workspace harness structure, how harnesses are
-composed, extended, and customized, and how they are built and used in
-projects.
+Focus areas retained here:
+
+- Getting started (with & without a harness)
+- Core Workspace commands, attributes & configuration
+- Local / path harness incubation and promotion
+- Overlay & extension practices
+- High-level harness selection guidance
+
+Out-of-scope (moving / summarised only):
+
+- Detailed per-harness implementation internals
+- Full variant-specific CI pipeline logic
+- Exhaustive template inventories (refer to harness repos)
 
 ---
 
+<!-- TOC -->
 ## Table of Contents
 
-- [Overview](#overview)
+- [Scope Overview](#scope-overview)
 - [What is a Workspace Harness?](#what-is-a-workspace-harness)
 - [Harness Structure](#harness-structure)
 - [Parent and Child Harnesses](#parent-and-child-harnesses)
 - [How Harnesses are Built and Deployed](#how-harnesses-are-built-and-deployed)
-- [Creating a New Project with a Harness](#creating-a-new-project-with-a-harness)
-- [Customizing a Harness](#customizing-a-harness)
+- [Creating a New Project with a Harness (Summary)](#creating-a-new-project-with-a-harness-summary)
+- [Customizing a Harness (Summary)](#customizing-a-harness-summary)
 - [File Materialisation (confd.yml)](#file-materialisation-confdyml)
 - [Defining Commands](#defining-commands)
 - [Workspace Tools](#workspace-tools)
@@ -52,10 +46,11 @@ projects.
 - [Contributing](#contributing)
 - [References](#references)
 - [Documentation Canonical Sources](#documentation-canonical-sources)
-  - [Duplicate Command Listing Detection](#duplicate-command-listing-detection)
 - [Related Deep Dives](#related-deep-dives)
+- [New user onboarding (guides)](#new-user-onboarding-guides)
+- [Deprecation Guidelines (Summary)](#deprecation-guidelines-summary)
 
----
+<!-- /TOC -->
 
 ## What is a Workspace Harness?
 
@@ -116,7 +111,7 @@ base-harness/
 
 ---
 
-## Creating a New Project with a Harness
+## Creating a New Project with a Harness (Summary)
 
 1. Install Workspace: `brew install my127/formulae/workspace` (or per docs)
 2. Create project: `ws create <projectName> <vendor>/<harness>:<version>`
@@ -125,7 +120,7 @@ base-harness/
 
 ---
 
-## Customizing a Harness
+## Customizing a Harness (Summary)
 
 - Adjust attributes in `workspace.yml`.
 - Add or override commands via `harness/config/commands.yml`.
@@ -201,6 +196,9 @@ Canonical sources:
   (high-level feature highlights).
 - Harness architecture & authoring concepts: this `README.md` (conceptual orientation).
 - Planned improvements / roadmap: `TODO.md` (tasks & roadmap).
+- Getting started (decision paths): `guides/getting-started.md`.
+- Scratch / no-harness bootstrap (deep dive): `guides/project-startup-without-harness.md`.
+- Extension patterns & variant promotion: `guides/harness-extension.md`.
 
 Guidelines:
 
@@ -245,6 +243,24 @@ The following focused documents provide additional technical depth:
 - Local harness pattern: [local-harness.md](guides/local-harness.md)
 - Building a reusable harness:
   [building-a-harness.md](guides/building-a-harness.md)
+- Getting started overview: [getting-started.md](guides/getting-started.md)
+- Project startup without harness (deep dive): [project-startup-without-harness.md](guides/project-startup-without-harness.md)
+- Harness extension & customisation: [harness-extension.md](guides/harness-extension.md)
+
+---
+
+## New user onboarding (guides)
+
+Primary entry points for new adopters:
+
+- Getting Started (overview & decision matrix): `guides/getting-started.md`
+- Starting Without a Harness (deep dive): `guides/project-startup-without-harness.md`
+- Harness Extension Patterns: `guides/harness-extension.md`
+
+These complement existing lifecycle documents:
+
+- Local Harness Pattern: `guides/local-harness.md`
+- Building a Reusable Harness: `guides/building-a-harness.md`
 
 ---
 

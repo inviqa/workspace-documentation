@@ -3,45 +3,24 @@
 <!-- QUICK-INDEX -->
 ## Quick Index
 
-- [Workspace Management](#workspace-management)
-- [Network Management](#network-management)
-- [Container Management](#container-management)
-- [PHP Development](#php-development)
-- [Asset Management](#asset-management)
-- [Database Management](#database-management)
-- [Configuration Management](#configuration-management)
-- [Harness Management](#harness-management)
-- [PHP Extensions Management](#php-extensions-management)
-- [Utilities](#utilities)
-- [Functions](#functions)
-  - [PHP-FPM Monitoring Functions](#php-fpm-monitoring-functions)
-  - [Standard Docker Functions](#standard-docker-functions)
-- [Usage Examples](#usage-examples)
+- Workspace lifecycle: [Workspace Management](#workspace-management)
+- Containers: [Container Management](#container-management)
+- PHP tooling: [PHP Development](#php-development)
+- Assets & DB: [Asset Management](#asset-management), [Database Management](#database-management)
+- Configuration tweaks: [Configuration Management](#configuration-management)
+- Extensions: [PHP Extensions Management](#php-extensions-management)
+- Functions overview: [Functions](#functions)
+- Examples: [Usage Examples](#usage-examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Introduction](#introduction)
 - [Commands](#commands)
-  - [Workspace Management](#workspace-management)
-  - [Network Management](#network-management)
-  - [Container Management](#container-management)
-  - [PHP Development](#php-development)
-  - [Asset Management](#asset-management)
-  - [Database Management](#database-management)
-  - [Configuration Management](#configuration-management)
-  - [Harness Management](#harness-management)
-  - [PHP Extensions Management](#php-extensions-management)
-  - [Utilities](#utilities)
 - [Functions](#functions)
-  - [File: harness-php/harness/config/functions.yml](#file-harness-phpharnessconfigfunctionsyml)
-  - [PHP-FPM Monitoring Functions](#php-fpm-monitoring-functions)
-  - [Standard Docker Functions](#standard-docker-functions)
 - [Usage Examples](#usage-examples)
-  - [Using Commands](#using-commands)
-  - [Using Functions](#using-functions)
-  - [Environment Variables](#environment-variables)
 
 <!-- /TOC -->
 

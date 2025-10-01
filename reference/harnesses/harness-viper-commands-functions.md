@@ -1,22 +1,21 @@
 # Harness Viper - Commands and Functions Documentation
 
 <!-- QUICK-INDEX -->
-**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+## Quick Index
+
+- Orientation: [Overview](#overview)
+- Core tasks: [Commands](#commands)
+- Extensibility: [Functions](#functions)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: `harness-viper/harness/config/commands.yml`](#file-harness-viperharnessconfigcommandsyml)
-    - [Environment Management](#environment-management)
-    - [Node Container Access and Ops](#node-container-access-and-ops)
-    - [Configuration Management](#configuration-management)
-  - [File: `harness-viper/harness/config/pipeline.yml`](#file-harness-viperharnessconfigpipelineyml)
-  - [File: `harness-viper/harness/config/external-images.yml`](#file-harness-viperharnessconfigexternal-imagesyml)
 - [Functions](#functions)
-  - [File: `harness-viper/harness/config/functions.yml`](#file-harness-viperharnessconfigfunctionsyml)
+
 <!-- /TOC -->
 
 This document covers all commands and functions available in the Viper harness.

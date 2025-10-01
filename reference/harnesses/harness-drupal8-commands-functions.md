@@ -1,26 +1,24 @@
 # Harness Drupal8 - Commands and Functions Documentation
 
 <!-- QUICK-INDEX -->
-**Quick Index**: [Overview](#overview) · [Commands](#commands) · [Functions](#functions)
+## Quick Index
+
+- Orientation: [Overview](#overview)
+- Core tasks: [Environment Management](#environment-management-commands)
+- Data & tooling: [Database](#database-management-commands)
+- Profiling & quality: [Performance Profiling](#performance-profiling)
+- Reference: [Functions](#functions), [Usage Examples](#usage-examples)
 <!-- /QUICK-INDEX -->
 
 <!-- TOC -->
 ## Table of Contents
 
+- [Quick Index](#quick-index)
 - [Overview](#overview)
 - [Commands](#commands)
-  - [File: `harness-drupal8/harness/config/commands.yml`](#file-harness-drupal8harnessconfigcommandsyml)
-    - [Environment Management Commands](#environment-management-commands)
-    - [Network Management Commands](#network-management-commands)
-    - [Container Management Commands](#container-management-commands)
-    - [Development Tools Commands](#development-tools-commands)
-    - [Asset Management Commands](#asset-management-commands)
-    - [Frontend Development Commands](#frontend-development-commands)
-    - [Service Management Commands](#service-management-commands)
-    - [Configuration Management Commands](#configuration-management-commands)
-    - [Feature Toggle Commands](#feature-toggle-commands)
-  - [File: `harness-drupal8/harness/config/functions.yml`](#file-harness-drupal8harnessconfigfunctionsyml)
 - [Functions](#functions)
+- [Usage Examples](#usage-examples)
+
 <!-- /TOC -->
 
 This document provides comprehensive documentation of all commands and

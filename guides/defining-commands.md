@@ -1,8 +1,6 @@
 # Defining Commands in Workspace
 
-This document explains how to define new commands in Workspace harnesses
-using the `command.yml` configuration files.
-
+<!-- TOC -->
 ## Table of Contents
 
 - [Command Structure](#command-structure)
@@ -11,6 +9,12 @@ using the `command.yml` configuration files.
 - [Filters](#filters)
 - [Complete Examples](#complete-examples)
 - [Best Practices](#best-practices)
+- [Summary Table](#summary-table)
+
+<!-- /TOC -->
+
+This document explains how to define new commands in Workspace harnesses
+using the `command.yml` configuration files.
 
 ## Command Structure
 

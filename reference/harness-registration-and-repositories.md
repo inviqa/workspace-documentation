@@ -109,6 +109,25 @@ To point at an internal mirror (e.g., for air‑gapped environments):
 
 ```yaml
 # Replace the default (order matters if both present)
+
+<!-- TOC -->
+## Table of Contents
+
+- [1. Concepts](#1-concepts)
+- [2. Core Classes Involved](#2-core-classes-involved)
+- [3. Package Registration Flow](#3-package-registration-flow)
+- [4. Harness Version Resolution](#4-harness-version-resolution)
+- [5. Why `ws harness prepare` Might Be Missing](#5-why-ws-harness-prepare-might-be-missing)
+- [6. Declaring Repository Sources](#6-declaring-repository-sources)
+- [7. Local / “Fake” Harness Strategies](#7-local-fake-harness-strategies)
+- [8. Dist Types](#8-dist-types)
+- [9. Diagnosing “Package Not Registered” Errors](#9-diagnosing-package-not-registered-errors)
+- [10. Frequently Asked Questions](#10-frequently-asked-questions)
+- [11. Future Enhancements (Potential)](#11-future-enhancements-potential)
+- [12. Quick Checklist](#12-quick-checklist)
+
+<!-- /TOC -->
+
 harness.repository.source('my127'): https://mirror.internal/workspace/harnesses.json
 ```
 
@@ -126,8 +145,10 @@ You can force early loading and verify connectivity:
 
 ```fish
 # Trigger resolution (lists error if missing/unreachable)
+# Trigger resolution (lists error if missing/unreachable)
 ws harness prepare 2>&1 | grep -i "Could not load from source" || echo "Source reachable"
 
+# Manually inspect first few bytes of the catalog
 # Manually inspect first few bytes of the catalog
 curl -I https://my127.io/workspace/harnesses.json | head -n 5
 curl -s https://my127.io/workspace/harnesses.json | head
