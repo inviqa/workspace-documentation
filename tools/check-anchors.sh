@@ -23,18 +23,28 @@ fail=0
 mapfile -t FILES < <(grep -rl '<!-- TOC -->' . --include='*.md')
 
 for f in "${FILES[@]}"; do
-  # collect headings (## and deeper) to match anchors, build slug list (newline separated)
-  mapfile -t HEADINGS < <(grep -E '^[#]{2,} ' "$f" | sed -E 's/^#+ //') || true
-  HEAD_SLUGS=""
-  for h in "${HEADINGS[@]}"; do
-    s=$(slug "$h")
-    HEAD_SLUGS+="$s\n"
-  done
+  # Collect headings (## and deeper) while ignoring fenced code blocks.
+  in_code=0
+  declare -a HEAD_SLUGS=()
+  while IFS='' read -r line; do
+    if [[ $line == \`\`\`* ]]; then
+      (( in_code = 1 - in_code ))
+      continue
+    fi
+    if (( ! in_code )) && [[ $line =~ ^##[[:space:]]+[^#] ]]; then
+      h_text=${line#### } # remove leading '## '
+      s=$(slug "$h_text")
+      HEAD_SLUGS+=("$s")
+    fi
+  done < "$f"
 
-  # extract TOC block
+  # Extract TOC block (raw) – skip anything inside fenced examples in the TOC block itself
   toc_block=$(awk '/<!-- TOC -->/{flag=1;next}/<!-- \/TOC -->/{flag=0}flag' "$f")
   while IFS= read -r line; do
-    # Look for lines containing a markdown link with an in-page anchor: ](#anchor)
+    # Skip fenced code in TOC example blocks
+    if [[ $line == \`\`\`* ]]; then
+      continue
+    fi
     case "$line" in
       *'](#'*)
         anchor_part=${line#*](#}
@@ -45,16 +55,19 @@ for f in "${FILES[@]}"; do
         ;;
     esac
     [[ -z "$anchor" ]] && continue
-    # Exact slug match check (anchor already lowercased by TOC generation)
-    if ! printf '%s' "$HEAD_SLUGS" | grep -qx "$anchor"; then
+    found=0
+    for s in "${HEAD_SLUGS[@]}"; do
+      if [[ $s == "$anchor" ]]; then
+        found=1
+        break
+      fi
+    done
+    if (( ! found )); then
       echo "[anchor-missing] $f -> #$anchor"
       fail=1
     fi
   done <<< "$toc_block"
-  unset HEADINGS HEAD_SLUGS toc_block
-  # shellcheck disable=SC2034
-  true
-
+  unset HEAD_SLUGS toc_block
 done
 
 if (( fail )); then
