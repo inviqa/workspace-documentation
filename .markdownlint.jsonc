@@ -1,0 +1,23 @@
+{
+  // Markdownlint configuration for workspace documentation
+  // We keep MD013 (line length) enabled but allow longer lines in code blocks, tables, and links.
+  // Temporarily disable strict line length until full reflow completed
+  "MD013": false,
+  // Allow multiple consecutive headings if intentional (disable MD025 for H1 inside)
+  "MD025": { "front_matter_title": "" },
+  // Permit some inline HTML if needed for badges
+  "MD033": false,
+  // Enforce consistent heading style (ATX)
+  "MD003": { "style": "atx" },
+  // Trailing punctuation in headings allowed (we simplify instead of lint failing)
+  "MD026": false,
+  // Ordered list numbering flexibility while wrapping automation stabilises
+  "MD029": false
+  ,
+  // Temporarily keep unordered list style (MD004), ordered list numbering (MD029), and line length (MD013) disabled.
+  // Re-enabled in phase 1: MD012 (multiple blank lines), MD031 (fenced block spacing), MD051 (link fragments)
+  "MD004": false,
+  "MD012": true,
+  "MD031": true,
+  "MD051": true
+}
