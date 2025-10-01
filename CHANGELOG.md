@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_No changes yet._
+
+## [1.1.0] - 2025-10-01
+
 ### Added
 
 - Initial CHANGELOG.md to track project changes
@@ -19,11 +23,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Complete examples for both bash and PHP interpreters
   - Best practices and guidelines
   - Summary table with use cases
-
 - Getting started guide (`guides/getting-started.md`)
 - Project startup without harness deep dive (`guides/project-startup-without-harness.md`)
 - Harness extension & customisation guide (`guides/harness-extension.md`)
 - Quick Index enforcement script (`tools/check-quick-index.sh`) and allowlist
+- Quick Index anchor validation script (`tools/check-quick-index-anchors.sh`)
+- Enhanced anchor integrity tooling (`tools/check-anchors.sh`) – now ignores
+  fenced code blocks
+- Blank line normalisation script (`tools/fix-blank-lines.sh`)
+- Experimental paragraph wrapping utility (`tools/wrap-md.py`) (groundwork
+  for future MD013 re‑enablement)
+- Documentation style guide clarifications (heading simplification policy,
+  Quick Index policy, line length strategy notes)
+- Governance around TOC markers and allowlisted Quick Index patterns (glob
+  pattern support)
+- Automated TOC regeneration across guides & references
+- Extended harness configuration layering & diagnostics details in `harness-confd-file-mappings.md`
 
 ### Changed
 
@@ -38,12 +53,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Retained / curated Quick Index only for master index, harness summary,
   and per-harness command/function docs (policy refined to allow concise
   task-oriented entries with only valid anchors)
+- Simplified & normalised headings across guides and references (removed
+  punctuation / special symbols, unified casing) to stabilise anchor slugs
+- Regenerated all Tables of Contents using consistent slug rules & markers
+- Updated `DOCUMENTATION-STYLE.md` (anchor generation, TOC & Quick Index usage guidance)
+- Refined harness command/function reference files (removed invalid anchors,
+  added missing Quick Index entries where allowlisted)
+- Standardised Quick Index taxonomy labels (Orientation, Core tasks, Reference, etc.)
+- Consolidated README admonition / scope block into a single blockquote
+- Converted numbered section heading in `harness-indexes.md` to simpler form
+  resolving anchor mismatch
+- Adjusted application overlay & layering guide section headings for consistency
+
+### Deprecated
+
+- (None)
+
+### Removed
+
+- Unauthorized Quick Index blocks outside the allowlist
+- Duplicate TOC blocks and redundant H1 headings
+- Obsolete heading punctuation (&, /, parentheses) producing unstable anchors
 
 ### Fixed
 
 - Markdown formatting compliance across all documentation files
-- Line length limits adhered to (80 characters max)
+- Broken / stale anchor fragments (MD051) across multiple docs
+- Multiple consecutive blank lines removed (MD012) via normalisation script
+- Fenced code block spacing issues corrected (MD031)
+- Blockquote spacing and nesting issues resolved (MD028)
+- Spurious / corrupted code fence in `guides/local-harness.md` fixed
+- Inconsistent heading spacing and horizontal rule adjacency (MD022) normalised
+- Invalid Quick Index entries pointing at non-existent sections (e.g. Drupal
+  harness reference) removed
+- Duplicated / malformed TOC or H1 occurrences eliminated
 - Proper table formatting in command documentation
+
+### Security
+
+- (None)
 
 ## [1.0.0] - 2025-08-21
 

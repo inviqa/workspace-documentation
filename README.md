@@ -5,7 +5,6 @@
 > progressively relocated to dedicated harness repositories. Harness specific
 > command/function indexes remain temporarily for convenience and will be
 > flagged when migrated.
-
 > ⚠️ **WORK IN PROGRESS**: This documentation set is being actively
 > refactored toward a canonical-source model. Sections, filenames, and
 > anchors may change. Please report broken links instead of copying or
